@@ -2,190 +2,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS PRO | Ultimate Institutional Suite</title>
+    <title>Nexus Capital | Elite Global Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        :root { --gold: #f3ba2f; --dark: #020406; --card: #0b0e11; }
-        body { background-color: var(--dark); color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(11, 14, 17, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .gold-glow { box-shadow: 0 0 20px rgba(243, 186, 47, 0.15); border: 1px solid var(--gold) !important; }
-        .nav-link:hover { color: var(--gold); border-bottom: 2px solid var(--gold); }
+        :root { --gold: #f3ba2f; --dark: #05070a; --glass: rgba(15, 18, 23, 0.9); }
+        body { background-color: var(--dark); color: #ffffff; font-family: 'Inter', sans-serif; }
+        .glass-ui { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        .gold-glow { border: 1px solid var(--gold) !important; box-shadow: 0 0 15px rgba(243, 186, 47, 0.1); }
         .hidden-section { display: none; }
-        .crypto-card { transition: 0.3s; cursor: pointer; border-radius: 20px; }
-        .crypto-card:hover { background: rgba(255,255,255,0.03); transform: translateY(-5px); }
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; }
+        .gradient-text { background: linear-gradient(90deg, #f3ba2f, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        input, select { background: #161a1e !important; border: 1px solid #2b3139 !important; color: white !important; outline: none !important; }
+        input:focus { border-color: var(--gold) !important; }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <div class="w-full bg-[#161a1e] py-1 border-b border-gray-800 flex overflow-hidden whitespace-nowrap">
-        <div class="flex animate-[scroll_20s_linear_infinite] gap-10 text-[10px] font-bold text-gray-400">
-            <span>BTC/USD <span class="text-green-500">$67,842.10 ↑</span></span>
-            <span>ETH/USD <span class="text-red-500">$3,421.50 ↓</span></span>
-            <span>BNB/USD <span class="text-green-500">$592.12 ↑</span></span>
-            <span>GOLD/USD <span class="text-yellow-500">$2,142.10 ↑</span></span>
-            <span>CRUDE OIL <span class="text-red-500">$84.20 ↓</span></span>
-            <span>BTC/USD <span class="text-green-500">$67,842.10 ↑</span></span>
+    <nav class="glass-ui sticky top-0 z-[100] px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+            <div class="w-10 h-10 bg-[#f3ba2f] rounded-xl flex items-center justify-center font-black text-black">N</div>
+            <span class="text-xl font-black italic tracking-tighter uppercase">Nexus<span class="text-[#f3ba2f]">Capital</span></span>
         </div>
-    </div>
-
-    <nav class="glass sticky top-0 z-[100] px-6 py-4 flex items-center justify-between border-b border-gray-800">
-        <div class="flex items-center gap-10">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
-                <div class="w-10 h-10 bg-[#f3ba2f] rounded-xl flex items-center justify-center font-black text-black text-xl">N</div>
-                <span class="text-xl font-black tracking-tighter uppercase italic">Nexus<span class="text-[#f3ba2f]">Pro</span></span>
-            </div>
-            <div class="hidden lg:flex gap-6 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-                <a href="#" class="nav-link">Spot</a>
-                <a href="#" class="nav-link">Futures</a>
-                <a href="#" class="nav-link">P2P</a>
-                <a href="#" class="nav-link">Academy</a>
-            </div>
+        <div id="auth-buttons" class="flex gap-6 items-center">
+            <button onclick="showSection('signup')" class="bg-[#f3ba2f] text-black px-8 py-2 rounded-full font-black text-xs hover:scale-105 transition">GET STARTED</button>
         </div>
-        <div id="auth-box" class="flex gap-4 items-center">
-            <button onclick="showSection('login')" class="text-xs font-bold text-gray-400 hover:text-white">Sign In</button>
-            <button onclick="showSection('signup')" class="bg-[#f3ba2f] text-black px-6 py-2 rounded-lg font-black text-xs">JOIN ELITE</button>
-        </div>
-        <div id="user-box" class="hidden flex items-center gap-4">
-            <div class="bg-gray-800 px-4 py-1.5 rounded-full border border-gray-700">
-                <span id="bal-top" class="text-xs font-black text-[#f3ba2f]">$0.00</span>
-            </div>
-            <button onclick="showSection('dashboard')" class="w-10 h-10 rounded-full border-2 border-[#f3ba2f] flex items-center justify-center font-bold">U</button>
+        <div id="user-nav" class="hidden flex items-center gap-4">
+            <div class="text-right"><p id="user-display" class="text-sm font-bold text-[#f3ba2f]"></p><p class="text-[9px] text-green-500 font-bold uppercase">Pro Trader</p></div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-500 to-black p-[1px]"><div class="w-full h-full bg-black rounded-full flex items-center justify-center">👤</div></div>
         </div>
     </nav>
 
-    <section id="landing-section" class="section py-24 px-6 text-center animate__animated animate__fadeIn">
-        <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-8">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Institutional Liquidity Provider 2026</span>
-        </div>
-        <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-8 italic">THE FUTURE OF<br><span class="text-[#f3ba2f]">GLOBAL WEALTH.</span></h1>
-        <p class="text-gray-500 max-w-2xl mx-auto mb-12 text-lg">Nexus Pro is the world’s leading digital asset ecosystem for professional investors. Zero-latency trading, worldwide dollar settlement.</p>
-        <button onclick="showSection('signup')" class="bg-[#f3ba2f] text-black px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-all shadow-2xl shadow-yellow-500/20">START YOUR EMPIRE</button>
+    <section id="landing-section" class="section py-32 px-6 text-center animate__animated animate__fadeIn">
+        <h1 class="text-6xl md:text-8xl font-black mb-8 italic uppercase leading-none">Global <span class="gradient-text">Dollar</span><br>Settlement.</h1>
+        <p class="text-gray-500 max-w-2xl mx-auto mb-10 text-lg uppercase tracking-widest font-bold">The institutional standard for 2026</p>
+        <button onclick="showSection('signup')" class="bg-[#f3ba2f] text-black px-12 py-5 rounded-2xl font-black text-xl shadow-2xl">OPEN SECURE ACCOUNT</button>
     </section>
 
-    <section id="signup-section" class="section hidden-section flex justify-center py-20 animate__animated animate__zoomIn">
-        <div class="glass p-12 rounded-[40px] w-full max-w-md border border-gray-800">
-            <h2 class="text-4xl font-black mb-2 italic uppercase">Register</h2>
-            <p class="text-gray-500 text-xs mb-8 tracking-widest uppercase">Securing your financial freedom</p>
+    <section id="signup-section" class="section hidden-section flex justify-center py-20 px-6 animate__animated animate__zoomIn">
+        <div class="glass-ui p-10 rounded-[40px] w-full max-w-md border border-gray-800">
+            <h2 class="text-3xl font-black mb-6 italic">JOIN THE ELITE</h2>
             <div class="space-y-4">
-                <input id="in-name" type="text" placeholder="Full Name" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none focus:border-[#f3ba2f] transition">
-                <input type="email" placeholder="Institutional Email" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <input type="password" placeholder="Password" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 outline-none">
-                <div class="flex items-center gap-2 p-2"><input type="checkbox" checked><span class="text-[10px] text-gray-500">I agree to the 2026 Global Asset Policy.</span></div>
-                <button onclick="handleAuth()" class="w-full bg-[#f3ba2f] text-black font-black py-4 rounded-xl shadow-lg">CREATE ACCOUNT</button>
+                <input id="in-name" type="text" placeholder="Full Name" class="w-full p-4 rounded-2xl">
+                <input type="email" placeholder="Email Address" class="w-full p-4 rounded-2xl">
+                <input type="password" placeholder="Create Password" class="w-full p-4 rounded-2xl">
+                <button onclick="handleAuth()" class="w-full bg-[#f3ba2f] text-black font-black py-4 rounded-2xl shadow-lg">INITIALIZE ACCOUNT</button>
             </div>
         </div>
     </section>
 
-    <section id="dashboard-section" class="section hidden-section px-8 py-10 animate__animated animate__fadeIn">
+    <section id="dashboard-section" class="section hidden-section container mx-auto px-6 py-10 animate__animated animate__fadeIn">
         
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
-            <div class="lg:col-span-1 glass p-8 rounded-[32px] gold-glow relative overflow-hidden">
-                <p class="text-[10px] font-black text-[#f3ba2f] uppercase tracking-widest mb-4">Master Balance</p>
-                <h2 id="balance-val" class="text-4xl font-black tracking-tighter mb-8">$15,400.00</h2>
-                <div class="flex gap-3">
-                    <button onclick="openModal('Deposit')" class="flex-1 bg-[#f3ba2f] text-black py-3 rounded-xl font-black text-[10px]">DEPOSIT</button>
-                    <button onclick="openModal('Withdraw')" class="flex-1 bg-white/5 hover:bg-white/10 py-3 rounded-xl font-black text-[10px]">WITHDRAW</button>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            <div class="glass-ui p-8 rounded-[40px] gold-glow relative overflow-hidden">
+                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Total Managed Balance</p>
+                <h2 id="balance-val" class="text-5xl font-black italic tracking-tighter">$15,400.00</h2>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="openModal('deposit')" class="flex-1 bg-green-500 text-black py-3 rounded-xl font-bold text-xs uppercase">Deposit</button>
+                    <button onclick="openModal('withdraw')" class="flex-1 bg-white/5 border border-white/10 py-3 rounded-xl font-bold text-xs uppercase hover:bg-white/10 transition">Withdraw</button>
                 </div>
+            </div>
+            
+            <div class="glass-ui p-8 rounded-[40px] flex flex-col justify-center border-l-4 border-blue-500">
+                <p class="text-[10px] font-bold text-gray-500 uppercase mb-2 italic">Profit Forecast (24h)</p>
+                <h3 class="text-3xl font-black text-blue-500">+$214.50</h3>
+                <div class="mt-4 bg-white/5 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full" style="width: 65%"></div></div>
             </div>
 
-            <div class="glass p-8 rounded-[32px] flex flex-col justify-center bg-gradient-to-br from-green-500/5 to-transparent">
-                <p class="text-xs text-gray-500 font-bold mb-1">Staking Rewards</p>
-                <h3 class="text-3xl font-black text-green-500">+$142.10</h3>
-                <p class="text-[10px] text-gray-600 mt-2 italic">Earned from ETH Liquidity Pool</p>
-            </div>
-            <div class="glass p-8 rounded-[32px] flex flex-col justify-center bg-gradient-to-br from-blue-500/5 to-transparent">
-                <p class="text-xs text-gray-500 font-bold mb-1">Affiliate Rank</p>
-                <h3 class="text-3xl font-black text-blue-500 uppercase">Diamond</h3>
-                <p class="text-[10px] text-gray-600 mt-2 italic">Next Reward: $500.00 (72%)</p>
-            </div>
-            <div class="glass p-8 rounded-[32px] flex flex-col justify-center">
-                <p class="text-xs text-gray-500 font-bold mb-1">Live Trading View</p>
-                <div class="w-full bg-gray-900 h-10 rounded-lg flex items-center justify-center border border-white/5">
-                    <span class="text-[10px] font-mono animate-pulse text-yellow-500">Connecting to AWS-Central...</span>
-                </div>
+            <div class="glass-ui p-8 rounded-[40px] flex flex-col justify-center border-l-4 border-[#f3ba2f]">
+                <p class="text-[10px] font-bold text-gray-500 uppercase mb-2 italic">Account Tier</p>
+                <h3 class="text-3xl font-black text-[#f3ba2f] uppercase italic">Diamond Pro</h3>
+                <p class="text-[10px] text-gray-600 mt-2">Maximum withdrawal limit active</p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 glass rounded-[32px] overflow-hidden">
-                <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-white/5">
-                    <h4 class="font-black text-xs uppercase tracking-widest">Advanced Spot Terminal</h4>
-                    <div class="flex gap-4">
-                        <span class="text-[10px] text-green-500 font-bold">API STABLE</span>
-                        <span class="text-[10px] text-gray-500 font-mono">NODE: TYO-21</span>
-                    </div>
-                </div>
-                <div class="p-10 h-64 relative bg-[#0d1014] flex flex-col justify-end">
-                    <div class="flex items-end gap-2 h-full items-end pb-4">
-                        <div class="bg-red-500/50 w-full rounded-t" style="height: 40%"></div>
-                        <div class="bg-green-500/50 w-full rounded-t" style="height: 60%"></div>
-                        <div class="bg-green-500/50 w-full rounded-t" style="height: 85%"></div>
-                        <div class="bg-red-500/50 w-full rounded-t" style="height: 30%"></div>
-                        <div class="bg-green-500/50 w-full rounded-t" style="height: 55%"></div>
-                        <div class="bg-green-500/50 w-full rounded-t" style="height: 95%"></div>
-                    </div>
-                    <div class="absolute top-10 left-10"><h5 class="text-3xl font-black text-white/10 uppercase italic">BTC / USD CHART</h5></div>
-                </div>
-                <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="crypto-card p-4 border border-white/5 flex justify-between items-center">
-                            <div><p class="text-[10px] font-bold text-gray-500">BTC</p><p class="font-black">Bitcoin</p></div>
-                            <div class="text-right font-mono text-green-500 font-bold"><p>$67,230</p><p class="text-[10px]">+2.1%</p></div>
-                        </div>
-                        <div class="crypto-card p-4 border border-white/5 flex justify-between items-center">
-                            <div><p class="text-[10px] font-bold text-gray-500">ETH</p><p class="font-black">Ethereum</p></div>
-                            <div class="text-right font-mono text-red-500 font-bold"><p>$3,420</p><p class="text-[10px]">-0.4%</p></div>
-                        </div>
-                    </div>
-                </div>
+        <div class="glass-ui rounded-[40px] overflow-hidden animate__animated animate__fadeInUp">
+            <div class="p-8 border-b border-white/5 flex justify-between items-center">
+                <h3 class="font-black italic uppercase text-sm tracking-widest text-gray-400">Ledger / Recent Transactions</h3>
+                <span class="text-[10px] bg-green-500/20 text-green-500 px-3 py-1 rounded-full font-bold">SYSTEM ACTIVE</span>
             </div>
-
-            <div class="space-y-6">
-                <div class="glass p-6 rounded-[32px] border-l-4 border-[#f3ba2f]">
-                    <h4 class="font-black text-xs uppercase mb-4">P2P Express Buy</h4>
-                    <input type="number" placeholder="Enter Amount USD" class="w-full bg-white/5 p-3 rounded-xl border border-white/10 text-sm mb-4 outline-none focus:border-[#f3ba2f]">
-                    <div class="flex gap-2">
-                        <button class="flex-1 bg-white/5 py-2 rounded-lg text-[10px] font-black border border-white/10">USDT</button>
-                        <button class="flex-1 bg-white/5 py-2 rounded-lg text-[10px] font-black border border-white/10">BTC</button>
-                    </div>
-                    <button class="w-full mt-4 gold-btn text-black font-black py-3 rounded-xl text-xs">FIND OFFERS</button>
-                </div>
-
-                <div class="glass p-6 rounded-[32px]">
-                    <h4 class="font-black text-xs uppercase mb-4 text-gray-400 tracking-widest">Security Protocol</h4>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center"><span class="text-[10px] text-gray-500">2FA Status</span><span class="text-[10px] font-black text-green-500 uppercase">Active</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[10px] text-gray-500">Cold Storage</span><span class="text-[10px] font-black text-[#f3ba2f] uppercase">Enabled</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[10px] text-gray-500">Audit Source</span><span class="text-[10px] font-black uppercase">CertiK 2026</span></div>
-                    </div>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-white/5 text-[10px] font-bold text-gray-500 uppercase">
+                        <tr><th class="p-6">Type</th><th class="p-6">Method</th><th class="p-6">Amount</th><th class="p-6">TID / Proof</th><th class="p-6">Status</th></tr>
+                    </thead>
+                    <tbody id="ledger-body" class="divide-y divide-white/5">
+                        </tbody>
+                </table>
             </div>
         </div>
     </section>
 
-    <div id="trans-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center p-6">
-        <div class="glass w-full max-w-sm rounded-[40px] p-10 animate__animated animate__fadeInUp">
-            <h3 id="modal-title" class="text-3xl font-black italic mb-8 uppercase tracking-tighter">EXECUTE</h3>
+    <div id="deposit-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center p-6">
+        <div class="glass-ui w-full max-w-md rounded-[40px] p-10 animate__animated animate__fadeInDown">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black italic uppercase">Initialize Deposit</h3>
+                <button onclick="closeModals()" class="text-gray-500 text-3xl">&times;</button>
+            </div>
             <div class="space-y-6">
-                <input id="trans-amt" type="number" placeholder="0.00 USD" class="w-full bg-transparent border-b-2 border-gray-800 text-4xl font-black text-center outline-none focus:border-[#f3ba2f] pb-4">
-                <select class="w-full bg-white/5 p-4 rounded-xl border border-white/10 text-xs font-bold outline-none">
-                    <option>USDT (Global Network)</option>
-                    <option>Bitcoin Wallet</option>
-                    <option>Swift Bank Wire</option>
-                    <option>Nexus Card Balance</option>
+                <div><label class="text-[10px] font-bold text-gray-500 uppercase">Select Gateway</label>
+                    <select id="dep-method" class="w-full p-4 rounded-2xl mt-2 text-sm">
+                        <option value="USDT (TRC20)">USDT (TRC20 Wallet)</option>
+                        <option value="Bitcoin">Bitcoin (BTC)</option>
+                        <option value="Binance Pay">Binance Pay (ID)</option>
+                        <option value="Bank Transfer">International Bank Wire</option>
+                    </select>
+                </div>
+                <div><label class="text-[10px] font-bold text-gray-500 uppercase">Amount (USD)</label>
+                    <input id="dep-amount" type="number" placeholder="Min $50.00" class="w-full p-4 rounded-2xl mt-2 text-xl font-black">
+                </div>
+                <div><label class="text-[10px] font-bold text-gray-500 uppercase">Transaction ID (TID)</label>
+                    <input id="dep-tid" type="text" placeholder="Paste TID here" class="w-full p-4 rounded-2xl mt-2 text-xs">
+                </div>
+                <div><label class="text-[10px] font-bold text-gray-500 uppercase">Upload Proof (Screenshot)</label>
+                    <input type="file" id="dep-proof" accept="image/*" class="w-full p-3 rounded-2xl mt-2 text-[10px] bg-white/5">
+                </div>
+                <button onclick="submitDeposit()" class="w-full bg-[#f3ba2f] text-black font-black py-4 rounded-2xl shadow-xl">SUBMIT PROOF</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="withdraw-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center p-6">
+        <div class="glass-ui w-full max-w-md rounded-[40px] p-10 animate__animated animate__fadeInUp">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black italic uppercase">Request Payout</h3>
+                <button onclick="closeModals()" class="text-gray-500 text-3xl">&times;</button>
+            </div>
+            <div class="space-y-5">
+                <select id="wit-method" class="w-full p-4 rounded-2xl text-sm">
+                    <option value="Crypto Wallet">Crypto Wallet (USDT/BTC)</option>
+                    <option value="Local Bank">Local Bank Account</option>
                 </select>
-                <button onclick="confirmTrans()" class="w-full bg-[#f3ba2f] text-black font-black py-4 rounded-2xl shadow-xl shadow-yellow-500/20">CONFIRM EXECUTION</button>
-                <button onclick="closeModal()" class="w-full text-xs font-bold text-gray-600 tracking-widest uppercase">Abort</button>
+                <input id="wit-name" type="text" placeholder="Account Holder Name" class="w-full p-4 rounded-2xl text-sm">
+                <input id="wit-number" type="text" placeholder="Account Number / Wallet Address" class="w-full p-4 rounded-2xl text-sm">
+                <input id="wit-amount" type="number" placeholder="Withdrawal Amount" class="w-full p-4 rounded-2xl text-xl font-black">
+                <button onclick="submitWithdraw()" class="w-full bg-white text-black font-black py-4 rounded-2xl shadow-xl">INITIATE PAYOUT</button>
             </div>
         </div>
     </div>
 
     <script>
         let balance = 15400.00;
-        let mode = '';
+        let proofBase64 = "";
+
+        // File to Base64 Converter
+        document.getElementById('dep-proof').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => { proofBase64 = reader.result; };
+            reader.readAsDataURL(file);
+        });
 
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.add('hidden-section'));
@@ -194,43 +159,65 @@
         }
 
         function handleAuth() {
-            const name = document.getElementById('in-name').value || "Elite Member";
-            document.getElementById('auth-box').classList.add('hidden');
-            document.getElementById('user-box').classList.remove('hidden');
-            document.getElementById('bal-top').innerText = '$' + balance.toLocaleString();
+            const name = document.getElementById('in-name').value || "Elite User";
+            document.getElementById('auth-buttons').classList.add('hidden');
+            document.getElementById('user-nav').classList.remove('hidden');
+            document.getElementById('user-display').innerText = name;
             showSection('dashboard');
-            startGlobalTicker();
+            addLedgerRow('Welcome Bonus', 'System', 100.00, 'N/A', 'Completed', 'text-green-500');
         }
 
-        function openModal(m) { mode = m; document.getElementById('modal-title').innerText = m; document.getElementById('trans-modal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('trans-modal').classList.add('hidden'); }
-
-        function confirmTrans() {
-            const val = parseFloat(document.getElementById('trans-amt').value);
-            if(!val) return;
-            balance = mode === 'Deposit' ? balance + val : balance - val;
-            updateUI();
-            closeModal();
-            alert(`Network Success: ${mode} of $${val} confirmed by global validator nodes.`);
+        function openModal(type) {
+            document.getElementById(type + '-modal').classList.remove('hidden');
         }
 
-        function updateUI() {
+        function closeModals() {
+            document.getElementById('deposit-modal').classList.add('hidden');
+            document.getElementById('withdraw-modal').classList.add('hidden');
+        }
+
+        function submitDeposit() {
+            const amt = document.getElementById('dep-amount').value;
+            const tid = document.getElementById('dep-tid').value;
+            const method = document.getElementById('dep-method').value;
+            
+            if(!amt || !tid || !proofBase64) return alert("Please fill all fields and upload proof, sweetie!");
+
+            addLedgerRow('Deposit', method, amt, tid, 'Pending Audit', 'text-yellow-500');
+            closeModals();
+            alert("Deposit submitted! Our team will verify the Base64 proof and TID within 24h.");
+        }
+
+        function submitWithdraw() {
+            const amt = parseFloat(document.getElementById('wit-amount').value);
+            const name = document.getElementById('wit-name').value;
+            const acc = document.getElementById('wit-number').value;
+            const method = document.getElementById('wit-method').value;
+
+            if(!amt || !name || !acc) return alert("All fields are required for withdrawal!");
+            if(amt > balance) return alert("Insufficient balance!");
+
+            balance -= amt;
             document.getElementById('balance-val').innerText = '$' + balance.toLocaleString(undefined, {minimumFractionDigits: 2});
-            document.getElementById('bal-top').innerText = '$' + balance.toLocaleString(undefined, {minimumFractionDigits: 2});
+            
+            addLedgerRow('Withdraw', method, amt, acc.substring(0,6)+'...', 'Processing', 'text-blue-500');
+            closeModals();
+            alert("Withdrawal request sent successfully, sweetie!");
         }
 
-        function startGlobalTicker() {
-            setInterval(() => {
-                let p = (Math.random() * 0.02);
-                balance += p;
-                updateUI();
-            }, 5000);
+        function addLedgerRow(type, method, amt, tid, status, colorClass) {
+            const tbody = document.getElementById('ledger-body');
+            const row = `
+                <tr class="hover:bg-white/5 transition">
+                    <td class="p-6 font-bold uppercase text-[10px]">${type}</td>
+                    <td class="p-6 text-gray-400 text-xs">${method}</td>
+                    <td class="p-6 font-black ${type==='Deposit' || type==='Welcome Bonus' ? 'text-green-500' : 'text-red-500'}">$${parseFloat(amt).toLocaleString()}</td>
+                    <td class="p-6 font-mono text-[9px] text-gray-500">${tid}</td>
+                    <td class="p-6"><span class="px-3 py-1 rounded-full bg-white/5 font-bold text-[9px] ${colorClass}">${status}</span></td>
+                </tr>
+            `;
+            tbody.innerHTML = row + tbody.innerHTML;
         }
-
-        // Ticker Scroll CSS Injection
-        const style = document.createElement('style');
-        style.textContent = `@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`;
-        document.head.append(style);
     </script>
 </body>
 </html>
