@@ -2,161 +2,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS PLATINUM | Sovereign Infrastructure</title>
+    <title>NEXUS INSTITUTIONAL | Asset Management Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap');
-        :root { --main: #6366f1; --accent: #0ea5e9; --bg: #f8fafc; }
-        body { background: var(--bg); color: #1e293b; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        :root { --primary: #1a1a1a; --accent: #2563eb; --success: #059669; --error: #dc2626; }
+        body { background: #f9fafb; color: #111827; font-family: 'Inter', sans-serif; margin: 0; }
         
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border: 1px solid white; border-radius: 28px; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05); transition: 0.3s; }
-        .btn-master { background: linear-gradient(135deg, #6366f1, #0ea5e9); color: white; border-radius: 18px; font-weight: 800; transition: 0.3s; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); border: none; cursor: pointer; }
-        .btn-master:active { transform: scale(0.96); }
-        .input-field { background: #f1f5f9; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 16px; outline: none; width: 100%; transition: 0.3s; }
-        .input-field:focus { border-color: var(--main); background: white; }
+        .card-pro { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .btn-primary { background: var(--primary); color: #fff; border-radius: 8px; font-weight: 600; padding: 12px; transition: 0.2s; border: none; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        .btn-primary:hover { opacity: 0.9; }
+        .input-pro { background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 14px; width: 100%; outline: none; transition: 0.2s; font-size: 13px; }
+        .input-pro:focus { border-color: var(--accent); }
         
-        .nav-active { color: var(--main) !important; transform: translateY(-3px); }
-        .vip-badge { background: linear-gradient(90deg, #f59e0b, #ef4444); color: white; font-size: 9px; padding: 3px 10px; border-radius: 20px; font-weight: 900; position: absolute; top: 15px; left: 15px; z-index: 10; }
-        .timer-box { font-family: monospace; font-weight: bold; background: #eef2ff; padding: 4px 8px; border-radius: 8px; color: #4338ca; }
+        .status-pending { color: #d97706; background: #fef3c7; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .status-approved { color: #059669; background: #dcfce7; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .status-rejected { color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .nav-item { color: #6b7280; font-size: 10px; font-weight: 600; text-align: center; cursor: pointer; transition: 0.2s; }
+        .nav-active { color: var(--accent); }
         
-        #maintenance-screen { position: fixed; inset: 0; background: white; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .hidden { display: none !important; }
-        .page-transition { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #maintenance-screen { position: fixed; inset: 0; background: #fff; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .page-transition { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="maintenance-screen" class="hidden">
-        <div class="w-20 h-20 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-        <h2 class="mt-8 text-2xl font-black text-slate-800 italic uppercase tracking-tighter">Core Upgrading</h2>
-        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">NEXUS Nodes are syncing with Global V4.0 Protocol.</p>
+        <div class="w-12 h-12 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin"></div>
+        <h2 class="mt-6 text-lg font-bold text-slate-800">System Optimization</h2>
+        <p class="text-slate-500 text-xs mt-2 px-6 italic">Our infrastructure nodes are currently undergoing a scheduled protocol upgrade.</p>
     </div>
 
     <div id="auth-ui" class="min-h-screen flex items-center justify-center p-6 bg-slate-50">
-        <div class="max-w-md w-full space-y-8 page-transition">
+        <div class="max-w-md w-full">
             <div class="text-center mb-10">
-                <div class="w-16 h-16 btn-master mx-auto flex items-center justify-center text-3xl font-black italic rounded-2xl mb-4">N</div>
-                <h1 class="text-3xl font-black text-slate-900 tracking-tighter">NEXUS<span class="text-indigo-600 italic">.PLATINUM</span></h1>
-                <p class="text-[9px] font-bold uppercase tracking-[5px] text-slate-400 mt-2 italic">Institutional Asset Terminal</p>
+                <h1 class="text-2xl font-extrabold tracking-tighter text-slate-900 uppercase">Nexus<span class="text-blue-600">Institutional</span></h1>
+                <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[4px] mt-2 italic">Global Node Access Protocol</p>
             </div>
 
-            <div id="login-box" class="glass-card p-8 space-y-5">
-                <h2 class="text-xl font-black text-slate-800 uppercase italic">Access ID</h2>
-                <input type="text" id="l-user" placeholder="Protocol Username" class="input-field">
-                <input type="password" id="l-pass" placeholder="Security Key" class="input-field">
-                <button onclick="handleLogin()" class="btn-master w-full py-4 uppercase">Authorize Hub</button>
-                <p class="text-center text-[10px] font-bold text-slate-500 uppercase">Need Terminal Access? <span onclick="toggleAuth(true)" class="text-indigo-600 cursor-pointer">Register Identity</span></p>
+            <div id="login-box" class="card-pro p-8 space-y-4 shadow-xl">
+                <h2 class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Secure Login</h2>
+                <input type="text" id="l-user" placeholder="Account Identifier" class="input-pro">
+                <input type="password" id="l-pass" placeholder="Security Key" class="input-pro">
+                <button onclick="handleLogin()" class="btn-primary">Authenticate Terminal</button>
+                <p class="text-center text-xs font-semibold text-slate-500 mt-4">Unauthorized access prohibited. <span onclick="toggleAuth(true)" class="text-blue-600 cursor-pointer">Register New ID</span></p>
             </div>
 
-            <div id="signup-box" class="glass-card p-8 space-y-5 hidden border-t-4 border-indigo-500">
-                <h2 class="text-xl font-black text-indigo-600 uppercase italic">Create Profile</h2>
-                <input type="text" id="s-user" placeholder="Assign Username" class="input-field">
-                <input type="password" id="s-pass" placeholder="Set Security Key" class="input-field">
-                <input type="text" id="s-ref" placeholder="Referral ID (Optional)" class="input-field">
-                <button onclick="handleSignup()" class="btn-master w-full py-4 uppercase">Initialize Sync</button>
-                <p class="text-center text-[10px] font-bold text-slate-500 uppercase">Existing Member? <span onclick="toggleAuth(false)" class="text-indigo-600 cursor-pointer">Return to Login</span></p>
+            <div id="signup-box" class="card-pro p-8 space-y-4 hidden shadow-xl border-t-4 border-blue-600">
+                <h2 class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Protocol Registration</h2>
+                <input type="text" id="s-user" placeholder="Create Identity" class="input-pro">
+                <input type="password" id="s-pass" placeholder="Set Security Key" class="input-pro">
+                <input type="text" id="s-ref" placeholder="Referral ID (Optional)" class="input-pro">
+                <button onclick="handleSignup()" class="btn-primary">Initialize Sync</button>
+                <p class="text-center text-xs font-semibold text-slate-500 mt-4">Existing credentials? <span onclick="toggleAuth(false)" class="text-blue-600 cursor-pointer">Return to Login</span></p>
             </div>
         </div>
     </div>
 
-    <div id="dashboard" class="hidden pb-28">
-        <header class="p-5 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-xl z-50 border-b border-slate-100">
+    <div id="dashboard" class="hidden pb-24">
+        <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 p-4 sticky top-0 z-50 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div id="admin-trigger" class="w-10 h-10 btn-master rounded-xl flex items-center justify-center text-xl font-black italic">N</div>
+                <div id="admin-trigger" class="w-9 h-9 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold italic">N</div>
                 <div>
-                    <p id="nav-user" class="text-xs font-black text-slate-900 italic uppercase">User</p>
-                    <p class="text-[8px] font-bold text-emerald-500 uppercase tracking-widest animate-pulse">● Protocol Secure</p>
+                    <p id="nav-user" class="text-xs font-black text-slate-900 uppercase">User: ---</p>
+                    <p class="text-[9px] font-bold text-emerald-600 uppercase tracking-tighter">Status: Protected</p>
                 </div>
             </div>
-            <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-50 text-red-400 border border-red-100"><i class="fa-solid fa-power-off"></i></button>
+            <div class="flex gap-4 items-center">
+                <a href="https://t.me/your_telegram_channel" target="_blank" class="text-blue-500 text-lg"><i class="fa-brands fa-telegram"></i></a>
+                <button onclick="logout()" class="text-slate-400"><i class="fa-solid fa-power-off"></i></button>
+            </div>
         </header>
 
-        <main id="page-home" class="p-5 space-y-6 page-transition">
-            <div class="glass-card p-8 bg-gradient-to-br from-indigo-500/5 to-white border-none">
-                <p class="text-[9px] font-black text-indigo-400 uppercase tracking-[4px] mb-1">Available Equity</p>
-                <h2 id="balance-txt" class="text-4xl font-black text-slate-900 tracking-tighter">$0.00</h2>
-                <div class="flex justify-between mt-8 pt-6 border-t border-slate-100">
-                    <div><p class="text-[8px] font-bold text-slate-400 uppercase">Real-time Yield</p><p id="profit-txt" class="text-lg font-black text-emerald-500">+$0.00</p></div>
-                    <button onclick="copyRef()" class="bg-indigo-600 text-white px-5 py-2 rounded-xl text-[9px] font-black uppercase italic shadow-lg shadow-indigo-200">Share ID</button>
+        <main id="page-home" class="p-4 space-y-4 page-transition">
+            <div class="card-pro p-6 bg-gradient-to-br from-slate-900 to-slate-800 text-white border-none shadow-lg">
+                <p class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Institutional Equity</p>
+                <h2 id="balance-txt" class="text-3xl font-bold mt-1 tracking-tight">$0.00</h2>
+                <div class="mt-8 flex justify-between border-t border-slate-700 pt-5">
+                    <div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase italic">Real-Time Yield</p>
+                        <p id="profit-txt" class="text-xl font-bold text-emerald-400">+$0.00</p>
+                    </div>
+                    <button onclick="copyRef()" class="bg-blue-600 text-white px-5 py-2 rounded-lg text-[9px] font-bold uppercase italic shadow-lg shadow-blue-500/20">Invite Capital</button>
                 </div>
             </div>
-            <h3 class="font-black text-[10px] uppercase text-slate-400 tracking-widest ml-1">Live Node Activity</h3>
+            
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[2px] px-1 pt-4">Operational Nodes</h3>
             <div id="active-nodes-list" class="space-y-3"></div>
         </main>
 
-        <main id="page-market" class="p-5 space-y-10 hidden page-transition">
-            <div>
-                <h3 class="text-lg font-black italic text-slate-800 uppercase flex items-center gap-2"><i class="fa-solid fa-crown text-amber-500"></i> VIP Sovereign Nodes</h3>
-                <div id="elite-nodes" class="grid gap-5 mt-4"></div>
+        <main id="page-market" class="p-4 space-y-6 hidden page-transition">
+            <h3 class="text-sm font-black text-slate-900 uppercase border-l-4 border-blue-600 pl-3">Sovereign High-Yield</h3>
+            <div id="elite-nodes" class="grid gap-4"></div>
+            <h3 class="text-sm font-black text-slate-900 uppercase border-l-4 border-slate-300 pl-3 pt-6">Institutional Standard</h3>
+            <div id="normal-nodes" class="grid gap-4"></div>
+        </main>
+
+        <main id="page-history" class="p-4 space-y-4 hidden page-transition">
+            <h3 class="text-sm font-black text-slate-900 uppercase">Account Ledger</h3>
+            <div id="history-list" class="space-y-2"></div>
+        </main>
+
+        <main id="page-info" class="p-4 space-y-4 hidden page-transition">
+            <div class="card-pro p-5">
+                <h3 class="text-xs font-bold text-slate-900 uppercase mb-2">Institutional Support</h3>
+                <p class="text-xs text-slate-500 mb-4">Join our official channel for real-time node performance and protocol updates.</p>
+                <a href="https://t.me/your_telegram_channel" target="_blank" class="btn-primary inline-block text-center !bg-[#24A1DE] !w-auto px-6">Official Telegram Channel</a>
             </div>
-            <div>
-                <h3 class="text-lg font-black italic text-slate-800 uppercase flex items-center gap-2 mt-8"><i class="fa-solid fa-server text-indigo-500"></i> Institutional Nodes</h3>
-                <div id="normal-nodes" class="grid gap-5 mt-4"></div>
+            <div class="card-pro p-5">
+                <h3 class="text-xs font-bold text-slate-900 uppercase mb-3">FAQ & Protocol</h3>
+                <div class="space-y-4">
+                    <details class="text-xs">
+                        <summary class="font-bold cursor-pointer text-slate-700">Yield Liquidation Terms</summary>
+                        <p class="pt-2 text-slate-500 leading-relaxed">Profits are calculated every 24-hour cycle. Capital withdrawals are subject to terminal audit to prevent protocol instability.</p>
+                    </details>
+                    <hr class="border-slate-100">
+                    <details class="text-xs">
+                        <summary class="font-bold cursor-pointer text-slate-700">Infrastructure Privacy</summary>
+                        <p class="pt-2 text-slate-500 leading-relaxed">All transaction hashes are end-to-end encrypted. Nexus Institutional does not share user terminal data with third-party providers.</p>
+                    </details>
+                </div>
             </div>
         </main>
 
-        <main id="page-vault" class="p-5 space-y-6 hidden page-transition">
-            <div class="glass-card p-6 space-y-5">
-                <h3 class="font-black uppercase text-slate-800 italic flex items-center gap-2"><i class="fa-solid fa-building-columns text-emerald-500"></i> Deposit Assets</h3>
-                <select id="dep-method" class="input-field font-bold text-sm" onchange="updateDepAddr()">
-                    <option value="">Select Asset Protocol</option>
-                    <option value="USDT_TRC20">USDT (TRC20 Network)</option>
-                    <option value="TRX">TRX (TRON Native)</option>
-                    <option value="BNB">BNB (Smart Chain)</option>
+        <main id="page-vault" class="p-4 space-y-4 hidden page-transition">
+            <div class="card-pro p-6 space-y-4">
+                <h3 class="text-sm font-bold uppercase text-slate-900">Capital Injection</h3>
+                <select id="dep-method" class="input-pro font-bold" onchange="updateDepUI()">
+                    <option value="">Choose Protocol</option>
+                    <option value="USDT_TRC20">USDT (TRC20)</option>
+                    <option value="TRX">TRX (TRON)</option>
                 </select>
-                <div id="dep-details" class="hidden space-y-5 animate-in fade-in slide-in-from-top-2">
-                    <div class="p-4 bg-slate-100 rounded-2xl text-center border border-slate-200">
-                        <p id="dep-addr-display" class="text-[11px] font-mono font-bold text-indigo-600 select-all break-all"></p>
+                <div id="dep-details" class="hidden space-y-4 border-t pt-4">
+                    <div class="bg-slate-50 p-4 rounded-lg text-center border border-slate-200">
+                        <p id="dep-addr" class="text-[11px] font-mono font-black text-blue-600 break-all select-all"></p>
                     </div>
-                    <input type="number" id="dep-amt" placeholder="Deposit Amount ($)" class="input-field">
-                    <input type="text" id="dep-tid" placeholder="Transaction ID (TID)" class="input-field">
-                    <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl text-center">
-                        <input type="file" id="dep-proof" accept="image/*" class="text-[10px] font-bold">
-                        <p class="text-[8px] text-slate-400 mt-2 uppercase font-black">Upload Proof Screenshot (Base64 Mode)</p>
-                    </div>
-                    <button onclick="processDeposit()" class="btn-master w-full py-4 uppercase italic">Initialize Settlement</button>
+                    <input type="number" id="dep-amt" placeholder="Asset Amount ($)" class="input-pro">
+                    <input type="text" id="dep-tid" placeholder="Transaction ID (TID)" class="input-pro">
+                    <input type="file" id="dep-proof" class="text-[10px] font-bold">
+                    <button onclick="submitDeposit()" class="btn-primary">Finalize Settlement</button>
                 </div>
             </div>
 
-            <div class="glass-card p-6 space-y-4">
-                <h3 class="font-black uppercase text-slate-800 italic flex items-center gap-2"><i class="fa-solid fa-paper-plane text-red-500"></i> Withdrawal Hub</h3>
-                <select id="with-method" class="input-field font-bold text-sm">
-                    <option value="Binance Pay">Binance Pay</option>
-                    <option value="USDT">USDT (TRC20)</option>
-                    <option value="CashApp">CashApp</option>
-                    <option value="Bank">Bank Wire</option>
-                </select>
-                <input type="text" id="w-user" placeholder="Account Identifier" class="input-field">
-                <input type="text" id="w-addr" placeholder="Wallet / Payout Address" class="input-field">
-                <input type="number" id="w-amt" placeholder="Withdrawal Amount ($)" class="input-field">
-                <button onclick="processWithdraw()" class="btn-master w-full py-4 !from-slate-800 !to-slate-900 uppercase italic">Request Egress</button>
+            <div class="card-pro p-6 space-y-4">
+                <h3 class="text-sm font-bold uppercase text-slate-900">Capital Payout</h3>
+                <input type="number" id="w-amt" placeholder="Amount ($)" class="input-pro">
+                <input type="text" id="w-addr" placeholder="Destination Hash" class="input-pro">
+                <button onclick="submitWithdrawal()" class="btn-primary" style="background:#475569">Execute Withdrawal</button>
             </div>
         </main>
 
-        <nav class="fixed bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-2xl border-t border-slate-100 flex justify-around z-[1000] items-center">
-            <div onclick="switchPage('home')" class="nav-item nav-active flex flex-col items-center"><i class="fa-solid fa-house-chimney text-2xl"></i><span class="text-[8px] font-black mt-1 uppercase">Home</span></div>
-            <div onclick="switchPage('market')" class="nav-item flex flex-col items-center"><i class="fa-solid fa-microchip text-2xl"></i><span class="text-[8px] font-black mt-1 uppercase">Market</span></div>
-            <div onclick="switchPage('vault')" class="nav-item flex flex-col items-center"><i class="fa-solid fa-wallet text-2xl"></i><span class="text-[8px] font-black mt-1 uppercase">Vault</span></div>
+        <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-200 p-4 flex justify-around items-center z-50">
+            <div onclick="switchPage('home')" class="nav-item nav-active"><i class="fa-solid fa-home text-lg"></i><p>Terminal</p></div>
+            <div onclick="switchPage('market')" class="nav-item"><i class="fa-solid fa-server text-lg"></i><p>Market</p></div>
+            <div onclick="switchPage('history')" class="nav-item"><i class="fa-solid fa-file-invoice text-lg"></i><p>Ledger</p></div>
+            <div onclick="switchPage('vault')" class="nav-item"><i class="fa-solid fa-shield-halved text-lg"></i><p>Vault</p></div>
+            <div onclick="switchPage('info')" class="nav-item"><i class="fa-solid fa-circle-info text-lg"></i><p>Info</p></div>
         </nav>
     </div>
 
     <div id="admin-panel" class="fixed inset-0 bg-slate-50 z-[10000] p-6 hidden overflow-y-auto">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="text-xl font-black text-indigo-900 italic uppercase tracking-tighter">Imperial Control Console</h2>
-            <button onclick="document.getElementById('admin-panel').classList.add('hidden')" class="text-4xl text-slate-300">&times;</button>
+            <h2 class="text-sm font-black text-slate-900 uppercase">Global Admin Infrastructure</h2>
+            <button onclick="document.getElementById('admin-panel').classList.add('hidden')" class="text-3xl text-slate-400">&times;</button>
         </div>
-        <div class="glass-card p-4 flex items-center justify-between mb-8">
-            <p class="text-[10px] font-black uppercase text-slate-500">Global Maintenance</p>
-            <button id="m-btn" onclick="toggleM()" class="bg-slate-200 px-6 py-2 rounded-full font-black text-[9px] uppercase">OFF</button>
-        </div>
-        
-        <h3 class="text-xs font-black uppercase text-indigo-600 mb-4 ml-2">Pending Protocols</h3>
-        <div id="admin-requests" class="grid gap-4"></div>
-        
-        <h3 class="text-xs font-black uppercase text-slate-400 mt-10 mb-4 ml-2">Network Identities</h3>
-        <div id="admin-users" class="grid gap-2"></div>
+        <button id="m-btn" onclick="toggleMaintenance()" class="btn-primary mb-6">Maintenance Mode: OFF</button>
+        <div id="admin-requests" class="space-y-4"></div>
     </div>
 
     <script type="module">
@@ -167,160 +182,125 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // NODE MARKET CONFIG
-        const eliteNodes = [
-            { id: 101, title: "Sovereign Prime", price: 1500, daily: 125, img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=400" },
-            { id: 102, title: "Global Nexus", price: 3000, daily: 280, img: "https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=400" },
-            { id: 103, title: "Imperial Core", price: 5000, daily: 550, img: "https://images.unsplash.com/photo-1644088379091-d574269d422f?auto=format&fit=crop&w=400" },
-            { id: 104, title: "Alpha Omega", price: 10000, daily: 1200, img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400" }
-        ];
-        const normalNodes = Array.from({length: 12}, (_, i) => ({
-            id: i+1, title: `Retail Node N-${i+1}`, price: 50 + (i*100), daily: 4 + (i*9), img: `https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=400&sig=${i}`
-        }));
+        const nodeData = {
+            elite: [
+                { id: 201, name: "Sovereign Tier-1", price: 2500, daily: 250, img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300" },
+                { id: 202, name: "Sovereign Tier-2", price: 5000, daily: 550, img: "https://images.unsplash.com/photo-1644088379091-d574269d422f?w=300" }
+            ],
+            retail: Array.from({length: 6}, (_, i) => ({
+                id: i+1, name: `Node Protocol v${i+1}`, price: 100 + (i*150), daily: 10 + (i*12), img: `https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=300&sig=${i}`
+            }))
+        };
 
         window.onload = () => {
             renderMarket();
-            checkM();
+            checkSystemState();
             const u = localStorage.getItem('nexus_user');
             if(u) showDashboard(u);
         };
 
         function renderMarket() {
-            document.getElementById('elite-nodes').innerHTML = eliteNodes.map(n => nodeCard(n, true)).join('');
-            document.getElementById('normal-nodes').innerHTML = normalNodes.map(n => nodeCard(n, false)).join('');
+            document.getElementById('elite-nodes').innerHTML = nodeData.elite.map(p => nodeItem(p, true)).join('');
+            document.getElementById('normal-nodes').innerHTML = nodeData.retail.map(p => nodeItem(p, false)).join('');
         }
 
-        const nodeCard = (n, isVip) => `
-            <div class="glass-card overflow-hidden relative">
-                <div class="h-32 overflow-hidden">
-                    <img src="${n.img}" class="w-full h-full object-cover">
-                    ${isVip ? `<span class="vip-badge italic">VIP ELITE</span>` : ''}
-                </div>
-                <div class="p-5">
-                    <h4 class="font-black text-slate-800 uppercase text-xs italic tracking-tighter">${n.title}</h4>
-                    <div class="flex justify-between items-end mt-5">
-                        <div><p class="text-[8px] font-black text-slate-400 uppercase">24H Yield</p><p class="text-sm font-black text-emerald-500">+$${n.daily}</p></div>
-                        <div class="text-right"><p class="text-xl font-black text-slate-900">$${n.price}</p><button onclick="buyNode(${n.id})" class="btn-master px-5 py-2 text-[9px] uppercase italic">Activate</button></div>
+        const nodeItem = (p, elite) => `
+            <div class="card-pro overflow-hidden flex items-center h-24">
+                <img src="${p.img}" class="w-24 h-24 object-cover ${elite ? 'brightness-75' : ''}">
+                <div class="px-4 flex-1">
+                    <h4 class="text-[10px] font-black uppercase tracking-tight">${p.name}</h4>
+                    <p class="text-[10px] font-bold text-emerald-600 mt-1">24H Return: $${p.daily}</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-sm font-black">$${p.price}</span>
+                        <button onclick="purchaseNode(${p.id})" class="bg-slate-900 text-white text-[8px] font-black px-4 py-1.5 rounded-md uppercase tracking-widest">Deploy</button>
                     </div>
                 </div>
             </div>`;
 
-        // AUTH CORE
-        window.handleLogin = async () => {
-            const u = document.getElementById('l-user').value.trim(), p = document.getElementById('l-pass').value.trim();
-            if(!u || !p) return;
-            const s = await get(ref(db, `users/${u}`));
-            if(s.exists() && s.val().password === p) { localStorage.setItem('nexus_user', u); showDashboard(u); } else alert("Login Declined.");
-        };
-
-        window.handleSignup = async () => {
-            const u = document.getElementById('s-user').value.trim(), p = document.getElementById('s-pass').value.trim(), r = document.getElementById('s-ref').value.trim();
-            if(!u || !p) return;
-            const s = await get(ref(db, `users/${u}`));
-            if(s.exists()) return alert("Identity exists.");
-            await set(ref(db, `users/${u}`), { username: u, password: p, balance: 0, profit: 0, referredBy: r });
-            alert("Terminal Registered, sweetie! 💋"); toggleAuth(false);
-        };
-
-        // DEPOSIT BASE64 PROOF
-        window.processDeposit = () => {
-            const file = document.getElementById('dep-proof').files[0];
-            const amt = document.getElementById('dep-amt').value, tid = document.getElementById('dep-tid').value;
-            if(!file || !amt || !tid) return alert("Missing data points.");
-            
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = async () => {
-                const u = localStorage.getItem('nexus_user'), hKey = push(ref(db, 'admin/requests')).key;
-                const data = { id: hKey, user: u, amount: amt, tid, proof: reader.result, method: document.getElementById('dep-method').value, type: 'Deposit', date: new Date().toLocaleString() };
-                await set(ref(db, `admin/requests/${hKey}`), data);
-                alert("Deposit Protocol Uploaded! 💋");
-                switchPage('home');
-            };
-        };
-
-        window.processWithdraw = async () => {
-            const u = localStorage.getItem('nexus_user'), amt = parseFloat(document.getElementById('w-amt').value);
-            const userSnap = await get(ref(db, `users/${u}`));
-            if(amt < 10 || userSnap.val().profit < amt) return alert("Insufficient Yield.");
-            const hKey = push(ref(db, 'admin/requests')).key;
-            await set(ref(db, `admin/requests/${hKey}`), { id: hKey, user: u, amount: amt, account: document.getElementById('w-user').value, method: document.getElementById('with-method').value, address: document.getElementById('w-addr').value, type: 'Withdrawal', date: new Date().toLocaleString() });
-            await update(ref(db, `users/${u}`), { profit: userSnap.val().profit - amt });
-            alert("Payout Requested! 💋");
-        };
-
-        // DASHBOARD REFRESH
+        // DASHBOARD SYSTEM
         function showDashboard(uid) {
             document.getElementById('auth-ui').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('nav-user').innerText = uid;
+            document.getElementById('nav-user').innerText = `ID: ${uid}`;
+            
             onValue(ref(db, `users/${uid}`), (snap) => {
                 const d = snap.val(); if(!d) return;
                 document.getElementById('balance-txt').innerText = '$' + (d.balance || 0).toFixed(2);
                 document.getElementById('profit-txt').innerText = '+$' + (d.profit || 0).toFixed(2);
+                
                 const nodes = d.nodes ? Object.entries(d.nodes) : [];
                 document.getElementById('active-nodes-list').innerHTML = nodes.map(([k, n]) => `
-                    <div class="glass-card p-5 flex justify-between items-center border-l-4 border-indigo-500 animate-in fade-in">
-                        <div><p class="text-[10px] font-black uppercase text-slate-800">${n.title}</p><p class="text-[8px] font-bold text-emerald-500 tracking-widest mt-1">YIELD: $${n.daily}/DAY</p></div>
+                    <div class="card-pro p-4 flex justify-between items-center border-l-4 border-blue-600">
+                        <div><p class="text-[10px] font-black uppercase italic">${n.name}</p><p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Status: Computing</p></div>
                         <div class="text-right">
-                            <p class="text-[8px] font-black text-indigo-400 uppercase mb-1">Next Settlement</p>
-                            <span class="timer-box text-[10px] countdown" data-next="${n.nextClaim}">--:--:--</span>
+                            <span class="text-xs font-mono font-bold bg-slate-100 px-3 py-1 rounded-lg countdown" data-next="${n.nextClaim}">00:00:00</span>
                         </div>
-                    </div>`).join('') || '<p class="text-center py-20 opacity-20 font-black text-[10px] uppercase tracking-[5px]">No Node Activity</p>';
+                    </div>`).join('') || '<div class="text-center py-10 text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Active Nodes</div>';
+
+                const history = d.history ? Object.entries(d.history).reverse() : [];
+                document.getElementById('history-list').innerHTML = history.map(([k, h]) => `
+                    <div class="card-pro p-3 flex justify-between items-center">
+                        <div><p class="text-[10px] font-black uppercase italic">${h.type}</p><p class="text-[9px] text-slate-400 font-bold mt-1">${h.date}</p></div>
+                        <div class="text-right"><p class="text-xs font-bold text-slate-900">$${h.amount}</p><span class="status-${h.status.toLowerCase()}">${h.status}</span></div>
+                    </div>`).join('') || '<div class="text-center py-10 text-[10px] font-bold text-slate-300 uppercase italic tracking-widest">Ledger Clear</div>';
             });
         }
 
-        window.buyNode = async (nodeId) => {
-            const u = localStorage.getItem('nexus_user'), node = [...eliteNodes, ...normalNodes].find(n => n.id === nodeId);
-            const s = await get(ref(db, `users/${u}`));
-            if(s.val().balance >= node.price) {
-                const k = push(ref(db, `users/${u}/nodes`)).key;
-                await update(ref(db, `users/${u}`), { balance: s.val().balance - node.price });
-                await set(ref(db, `users/${u}/nodes/${k}`), { ...node, nextClaim: Date.now() + 86400000 });
-                alert("Node Synced! 🚀");
-            } else alert("Insufficient Equity.");
+        // ASSET TRANSFER (Base64)
+        window.submitDeposit = () => {
+            const file = document.getElementById('dep-proof').files[0];
+            const reader = new FileReader();
+            if(!file) return alert("Proof required.");
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const uid = localStorage.getItem('nexus_user'), hKey = push(ref(db, 'admin/requests')).key;
+                const req = { id: hKey, user: uid, amount: document.getElementById('dep-amt').value, tid: document.getElementById('dep-tid').value, proof: reader.result, status: 'Pending', type: 'Deposit', date: new Date().toLocaleString() };
+                await set(ref(db, `admin/requests/${hKey}`), req);
+                await set(ref(db, `users/${uid}/history/${hKey}`), req);
+                alert("Audit Initiated. Status will update in Ledger.");
+                switchPage('history');
+            };
         };
 
-        // ADMIN MODULE
-        let taps = 0; document.getElementById('admin-trigger').onclick = () => { taps++; if(taps === 4) { if(prompt("Imperial Key:") === "coin786") { document.getElementById('admin-panel').classList.remove('hidden'); loadAdmin(); } taps = 0; } };
-        
+        // ADMIN TERMINAL
+        let taps = 0; document.getElementById('admin-trigger').onclick = () => { taps++; if(taps === 4) { if(prompt("Auth Key:") === "coin786") { document.getElementById('admin-panel').classList.remove('hidden'); loadAdmin(); } taps = 0; } };
+
         function loadAdmin() {
             onValue(ref(db, 'admin/requests'), (s) => {
                 const d = s.val();
                 document.getElementById('admin-requests').innerHTML = d ? Object.values(d).map(r => `
-                    <div class="glass-card p-5 space-y-4 border border-indigo-100">
-                        <div class="flex justify-between items-start"><p class="text-[10px] font-black uppercase text-indigo-600">${r.type}</p><p class="text-lg font-black">$${r.amount}</p></div>
-                        <p class="text-[9px] font-bold text-slate-500 uppercase">USER: ${r.user} | TID: ${r.tid}</p>
-                        ${r.proof ? `<img src="${r.proof}" class="w-full h-44 object-cover rounded-2xl border">` : `<p class="text-[9px] text-red-500">To: ${r.address}</p>`}
+                    <div class="card-pro p-4 space-y-4">
+                        <div class="flex justify-between font-black text-[10px] uppercase"><span>${r.type} [${r.user}]</span><span>$${r.amount}</span></div>
+                        ${r.proof ? `<img src="${r.proof}" class="w-full h-40 object-cover rounded-lg shadow-inner">` : ''}
                         <div class="flex gap-2">
-                            <button onclick="approve('${r.id}','${r.user}',${r.amount},'${r.type}')" class="flex-1 bg-emerald-500 text-white py-3 rounded-xl text-[9px] font-black uppercase">Verify</button>
-                            <button onclick="reject('${r.id}')" class="flex-1 bg-red-500 text-white py-3 rounded-xl text-[9px] font-black uppercase">Deny</button>
+                            <button onclick="auditReq('${r.id}','${r.user}',${r.amount},'Approved')" class="btn-primary !bg-emerald-600 flex-1">Approve</button>
+                            <button onclick="auditReq('${r.id}','${r.user}',${r.amount},'Rejected')" class="btn-primary !bg-rose-600 flex-1">Reject</button>
                         </div>
                     </div>`).join('') : '';
             });
-            onValue(ref(db, 'users'), (s) => {
-                document.getElementById('admin-users').innerHTML = s.val() ? Object.values(s.val()).map(u => `
-                    <div class="glass-card p-4 flex justify-between items-center"><p class="text-[10px] font-black uppercase italic">${u.username}</p><p class="text-[10px] font-black text-indigo-500">$${(u.balance||0).toFixed(2)}</p></div>`).join('') : '';
-            });
         }
 
-        window.approve = async (id, user, amt, type) => {
-            const s = await get(ref(db, `users/${user}`));
-            if(type === 'Deposit') await update(ref(db, `users/${user}`), { balance: (s.val().balance || 0) + parseFloat(amt) });
+        window.auditReq = async (id, user, amt, status) => {
+            if(status === 'Approved') {
+                const s = await get(ref(db, `users/${user}`));
+                await update(ref(db, `users/${user}`), { balance: (s.val().balance || 0) + parseFloat(amt) });
+            }
+            await update(ref(db, `users/${user}/history/${id}`), { status });
             await remove(ref(db, 'admin/requests/' + id));
         };
-        window.reject = async (id) => remove(ref(db, 'admin/requests/' + id));
 
-        // UTILS
-        window.switchPage = (p) => { ['home','market','vault'].forEach(x => document.getElementById('page-'+x).classList.add('hidden')); document.getElementById('page-'+p).classList.remove('hidden'); document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active')); event.currentTarget.classList.add('nav-active'); };
+        // CORE UTILS
+        window.switchPage = (p) => { ['home','market','history','vault','info'].forEach(x => document.getElementById('page-'+x).classList.add('hidden')); document.getElementById('page-'+p).classList.remove('hidden'); document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active')); event.currentTarget.classList.add('nav-active'); };
+        window.handleLogin = async () => { const u = document.getElementById('l-user').value.trim(), p = document.getElementById('l-pass').value; if(!u || !p) return; const s = await get(ref(db, `users/${u}`)); if(s.exists() && s.val().password === p) { localStorage.setItem('nexus_user', u); showDashboard(u); } else alert("Access Denied."); };
+        window.handleSignup = async () => { const u = document.getElementById('s-user').value.trim(), p = document.getElementById('s-pass').value; if(u && p) { await set(ref(db, `users/${u}`), { username: u, password: p, balance: 0, profit: 0 }); toggleAuth(false); } };
         window.toggleAuth = (s) => { document.getElementById('login-box').classList.toggle('hidden', s); document.getElementById('signup-box').classList.toggle('hidden', !s); };
-        window.updateDepAddr = () => { const m = document.getElementById('dep-method').value; const addrs = { USDT_TRC20: 'TAvfQQ18hXHdVCHbExV4yUPvQ4XkNgfKsJ', TRX: 'TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76', BNB: '0xD9359EADE5F5bACA51fb7da043767Bc0685bC355' }; document.getElementById('dep-addr-display').innerText = addrs[m] || ''; document.getElementById('dep-details').classList.toggle('hidden', !m); };
+        window.updateDepUI = () => { const m = document.getElementById('dep-method').value; document.getElementById('dep-addr').innerText = m === 'USDT_TRC20' ? 'TAvfQQ18hXHdVCHbExV4yUPvQ4XkNgfKsJ' : 'TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76'; document.getElementById('dep-details').classList.remove('hidden'); };
+        window.checkSystemState = () => onValue(ref(db, 'system/maintenance'), (s) => { document.getElementById('maintenance-screen').classList.toggle('hidden', !s.val()); document.getElementById('m-btn').innerText = s.val() ? "MAINTENANCE: ON" : "MAINTENANCE: OFF"; });
+        window.toggleMaintenance = async () => { const s = await get(ref(db, 'system/maintenance')); await set(ref(db, 'system/maintenance'), !s.val()); };
         window.logout = () => { localStorage.clear(); location.reload(); };
-        window.checkM = () => onValue(ref(db, 'system/maintenance'), (s) => { document.getElementById('maintenance-screen').classList.toggle('hidden', !s.val()); document.getElementById('m-btn').innerText = s.val() ? "ON" : "OFF"; document.getElementById('m-btn').classList.toggle('bg-indigo-600', s.val()); document.getElementById('m-btn').classList.toggle('text-white', s.val()); });
-        window.toggleM = async () => { const s = await get(ref(db, 'system/maintenance')); await set(ref(db, 'system/maintenance'), !s.val()); };
-        window.copyRef = () => { navigator.clipboard.writeText(window.location.href + "?ref=" + localStorage.getItem('nexus_user')); alert("Referral Protocol Link Copied!"); };
+        window.copyRef = () => { navigator.clipboard.writeText(window.location.href + "?id=" + localStorage.getItem('nexus_user')); alert("Referral Protocol Link Copied."); };
 
-        // TIMER LOOP
+        // REAL-TIME YIELD CLOCK
         setInterval(() => {
             document.querySelectorAll('.countdown').forEach(el => {
                 const diff = parseInt(el.dataset.next) - Date.now();
