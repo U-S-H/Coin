@@ -2,99 +2,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS INFINITY | Secure Terminal</title>
+    <title>NEXUS INFINITY | Global Institutional Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #f3ba2f; --bg: #f8fafc; }
-        body { background-color: var(--bg); font-family: 'Inter', sans-serif; }
-        .glass-ui { background: white; border: 1px solid rgba(0,0,0,0.05); border-radius: 35px; box-shadow: 0 15px 50px rgba(0,0,0,0.02); }
-        .auth-input { background: #f1f5f9; border: 2px solid transparent; border-radius: 18px; padding: 15px; width: 100%; transition: 0.3s; font-weight: 600; outline: none; }
-        .auth-input:focus { border-color: var(--gold); background: white; }
-        .btn-gold { background: var(--gold); color: black; font-weight: 900; padding: 16px; border-radius: 18px; width: 100%; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-gold:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(243, 186, 47, 0.2); }
-        #auth-overlay { position: fixed; inset: 0; background: white; z-index: 5000; display: flex; items-center; justify-center; }
+        :root { --gold: #f3ba2f; --slate: #0f172a; --bg: #ffffff; }
+        body { background: var(--bg); color: var(--slate); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Modern Glass Cards */
+        .nexus-card { background: #fff; border: 1px solid rgba(0,0,0,0.04); border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.02); transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nexus-card:hover { transform: translateY(-10px); box-shadow: 0 30px 80px rgba(0,0,0,0.05); }
+
+        /* Trust Badge Animation */
+        .verified-badge { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 4px 12px; border-radius: 100px; font-size: 8px; font-weight: 900; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 4px; }
+
+        /* Login Styling */
+        #auth-overlay { position: fixed; inset: 0; background: #fff; z-index: 5000; display: flex; align-items: center; justify-center; }
+        .input-pro { background: #f8fafc; border: 2px solid transparent; border-radius: 20px; padding: 18px; width: 100%; font-weight: 700; transition: 0.3s; }
+        .input-pro:focus { border-color: var(--gold); background: #fff; box-shadow: 0 10px 30px rgba(243,186,47,0.1); }
+
+        /* New Corporate Section */
+        .roadmap-item { border-left: 2px solid #f1f5f9; padding-left: 20px; position: relative; }
+        .roadmap-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; }
+
+        .btn-main { background: var(--gold); color: #000; font-weight: 900; padding: 18px; border-radius: 22px; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
+        .btn-main:hover { transform: scale(1.02); box-shadow: 0 15px 35px rgba(243,186,47,0.25); }
     </style>
 </head>
 <body>
 
     <div id="auth-overlay">
-        <div class="w-full max-w-md p-8">
-            <div class="text-center mb-10">
-                <h1 class="text-3xl font-black italic uppercase italic tracking-tighter">Nexus<span class="text-[#f3ba2f]">Infinity</span></h1>
-                <p id="auth-tag" class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-2">Institutional Access Required</p>
+        <div class="w-full max-w-sm p-10">
+            <div class="text-center mb-12">
+                <div class="w-16 h-16 bg-black rounded-3xl mx-auto mb-6 flex items-center justify-center text-white text-3xl font-black">N</div>
+                <h1 class="text-2xl font-black italic uppercase tracking-tighter">Nexus<span class="text-[#f3ba2f]">Infinity</span></h1>
+                <p id="auth-sub" class="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em] mt-2">Institutional Node Access</p>
             </div>
 
             <div id="login-form" class="space-y-4">
-                <input type="text" id="l-user" placeholder="Username" class="auth-input">
-                <input type="password" id="l-pass" placeholder="Password" class="auth-input">
-                <button onclick="handleLogin()" class="btn-gold">Authorize Entry</button>
-                <p class="text-center text-xs font-bold text-slate-400">New terminal? <span onclick="switchAuth(true)" class="text-black cursor-pointer underline">Create Identity</span></p>
+                <input type="text" id="l-user" placeholder="Terminal Username" class="input-pro">
+                <input type="password" id="l-pass" placeholder="Security Password" class="input-pro">
+                <button onclick="handleLogin()" class="btn-main">Connect to Mainframe</button>
+                <p class="text-center text-[10px] font-black text-slate-300 uppercase mt-4">No node ID? <span onclick="switchAuth(true)" class="text-black cursor-pointer underline">Initialize ID</span></p>
             </div>
 
             <div id="signup-form" class="space-y-4 hidden">
-                <input type="text" id="s-user" placeholder="Choose Username" class="auth-input">
-                <input type="email" id="s-email" placeholder="Institutional Email" class="auth-input">
-                <input type="password" id="s-pass" placeholder="Secure Password" class="auth-input">
-                <button onclick="handleSignup()" class="btn-gold">Register Node</button>
-                <p class="text-center text-xs font-bold text-slate-400">Already registered? <span onclick="switchAuth(false)" class="text-black cursor-pointer underline">Login</span></p>
+                <input type="text" id="s-user" placeholder="Username" class="input-pro">
+                <input type="email" id="s-email" placeholder="Official Email" class="input-pro">
+                <input type="password" id="s-pass" placeholder="Create Password" class="input-pro">
+                <button onclick="handleSignup()" class="btn-main">Create Identity</button>
+                <p class="text-center text-[10px] font-black text-slate-300 uppercase mt-4">Have an ID? <span onclick="switchAuth(false)" class="text-black cursor-pointer underline">Log In</span></p>
             </div>
         </div>
     </div>
 
-    <div id="main-app" class="hidden">
-        <nav class="bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-5 flex justify-between items-center sticky top-0 z-[1000]">
+    <div id="main-dashboard" class="hidden">
+        <nav class="sticky top-0 bg-white/80 backdrop-blur-2xl border-b border-slate-50 px-8 py-5 flex justify-between items-center z-[1000]">
             <div class="flex items-center gap-4">
-                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-black text-xs">N</div>
-                <h2 class="text-lg font-black italic uppercase tracking-tighter">Nexus<span class="text-[#f3ba2f]">Infinity</span></h2>
+                <h2 class="text-xl font-black italic uppercase tracking-tighter">Nexus<span class="text-[#f3ba2f]">Infinity</span></h2>
+                <div class="verified-badge hidden md:flex"><i class="fa-solid fa-circle-check"></i> SECURED NODE</div>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="text-right">
-                    <p id="nav-username" class="text-[10px] font-black text-slate-900 uppercase">User</p>
-                    <p class="text-[8px] font-black text-green-500 uppercase">Tier 1 Elite</p>
+            <div class="flex items-center gap-5">
+                <div class="text-right hidden sm:block">
+                    <p id="display-name" class="text-[10px] font-black uppercase">Admin</p>
+                    <p class="text-[8px] font-bold text-slate-400">GOLD ELITE MEMBER</p>
                 </div>
-                <button onclick="logout()" class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400"><i class="fa-solid fa-power-off"></i></button>
+                <button onclick="logout()" class="w-10 h-10 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </nav>
 
-        <main class="container mx-auto px-6 py-10 space-y-8">
-            <div class="glass-ui p-10 bg-gradient-to-br from-white to-slate-50 relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Assets (USD)</p>
-                    <i class="fa-solid fa-shield-check text-green-500"></i>
+        <main class="container mx-auto px-6 py-10 space-y-12">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 nexus-card p-12 bg-gradient-to-br from-white to-slate-50 relative overflow-hidden">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl"></div>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Total Net Equity (USD)</p>
+                    <h2 id="balance-txt" class="text-7xl md:text-8xl font-black italic tracking-tighter mb-12 text-slate-900">$0.00</h2>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-10 py-5 bg-[#f3ba2f] text-black font-black rounded-2xl text-[10px] uppercase shadow-xl shadow-yellow-500/20">Add Funds</button>
+                        <button class="px-10 py-5 bg-white border border-slate-100 text-slate-400 font-black rounded-2xl text-[10px] uppercase">Withdraw Assets</button>
+                    </div>
                 </div>
-                <h2 id="balance-val" class="text-6xl font-black italic tracking-tighter my-8">$0.00</h2>
-                <div class="flex gap-4">
-                    <button class="bg-[#f3ba2f] px-8 py-4 rounded-2xl text-[10px] font-black uppercase shadow-lg shadow-yellow-500/20">Deposit</button>
-                    <button class="bg-white border border-slate-100 px-8 py-4 rounded-2xl text-[10px] font-black uppercase">Withdraw</button>
+
+                <div class="nexus-card p-10 flex flex-col justify-between">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-8">System Analytics</p>
+                        <div class="space-y-6">
+                            <div class="flex justify-between font-bold"> <span class="text-slate-400 text-xs italic">Daily Return</span> <span class="text-green-500 text-sm">+$24.40</span> </div>
+                            <div class="flex justify-between font-bold"> <span class="text-slate-400 text-xs italic">Active Nodes</span> <span class="text-sm">1,242</span> </div>
+                            <div class="flex justify-between font-bold"> <span class="text-slate-400 text-xs italic">Hash Rate</span> <span class="text-blue-500 text-sm">1.2 EH/s</span> </div>
+                        </div>
+                    </div>
+                    <div class="pt-8 border-t border-slate-50 flex items-center gap-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Encrypted Cloud Link</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div class="glass-ui p-6">
-                    <p class="text-[8px] font-black text-slate-300 uppercase mb-1">Daily Profit</p>
-                    <p class="text-sm font-black text-green-500">+$12.50</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="nexus-card p-10">
+                    <h3 class="text-sm font-black uppercase mb-8 italic">Corporate Roadmap 2026</h3>
+                    <div class="space-y-8">
+                        <div class="roadmap-item"><p class="text-[10px] font-black">Q1: INFRASTRUCTURE EXPANSION</p><p class="text-[10px] text-slate-400">Deploying Zurich & Tokyo Quantum Nodes.</p></div>
+                        <div class="roadmap-item opacity-40"><p class="text-[10px] font-black">Q3: NEXUS TOKEN LAUNCH</p><p class="text-[10px] text-slate-400">Institutional-grade liquidity pool opening.</p></div>
+                    </div>
                 </div>
-                <div class="glass-ui p-6">
-                    <p class="text-[8px] font-black text-slate-300 uppercase mb-1">Nodes Active</p>
-                    <p class="text-sm font-black">04</p>
-                </div>
-                <div class="glass-ui p-6">
-                    <p class="text-[8px] font-black text-slate-300 uppercase mb-1">System Health</p>
-                    <p class="text-sm font-black text-blue-500">99.9%</p>
-                </div>
-                <div class="glass-ui p-6">
-                    <p class="text-[8px] font-black text-slate-300 uppercase mb-1">Live Sync</p>
-                    <div class="flex items-center justify-center gap-1"><div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div><span class="text-[10px] font-black italic">Active</span></div>
+                <div class="nexus-card p-10 bg-slate-900 text-white">
+                    <h3 class="text-sm font-black uppercase mb-4 italic text-[#f3ba2f]">Why Trust Nexus?</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-8">We utilize 256-bit AES encryption and multi-sig cold wallets to ensure your assets are protected under UK-Financial guidelines.</p>
+                    <div class="flex gap-4 opacity-50">
+                        <i class="fa-brands fa-cc-visa text-2xl"></i>
+                        <i class="fa-brands fa-cc-mastercard text-2xl"></i>
+                        <i class="fa-brands fa-bitcoin text-2xl"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass-ui p-8">
-                <h3 class="text-xs font-black uppercase mb-6 tracking-widest">Institutional Ledger</h3>
-                <div id="history-list" class="space-y-4">
-                    <p class="text-center text-[10px] font-bold text-slate-300 uppercase py-10">Waiting for data...</p>
+            <footer class="pt-20 pb-10 border-t border-slate-100">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+                    <div class="col-span-2">
+                        <h4 class="text-xl font-black italic uppercase mb-4">Nexus Infinity <span class="text-[#f3ba2f]">Institutional</span></h4>
+                        <p class="text-xs text-slate-400 leading-loose max-w-sm">Registered under Entity #7729-10-UK. Regulated by GFCA. Level 42, The Shard, London Bridge Street, UK.</p>
+                    </div>
+                    <div>
+                        <h5 class="text-[10px] font-black uppercase mb-6 text-slate-900">Framework</h5>
+                        <ul class="text-xs text-slate-400 font-bold space-y-4">
+                            <li class="hover:text-black cursor-pointer">Privacy Protocol</li>
+                            <li class="hover:text-black cursor-pointer">Risk Management</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="text-[10px] font-black uppercase mb-6 text-slate-900">Inquiries</h5>
+                        <p class="text-xs font-black">admin@nexus-infinity.pro</p>
+                    </div>
                 </div>
-            </div>
+            </footer>
         </main>
     </div>
 
@@ -113,78 +156,54 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Auth Navigation
-        window.switchAuth = (showSignup) => {
-            document.getElementById('login-form').classList.toggle('hidden', showSignup);
-            document.getElementById('signup-form').classList.toggle('hidden', !showSignup);
-            document.getElementById('auth-tag').innerText = showSignup ? "Create New Terminal ID" : "Institutional Access Required";
+        window.switchAuth = (signup) => {
+            document.getElementById('login-form').classList.toggle('hidden', signup);
+            document.getElementById('signup-form').classList.toggle('hidden', !signup);
+            document.getElementById('auth-sub').innerText = signup ? "Initialize Global Identity" : "Institutional Node Access";
         };
 
-        // SIGNUP LOGIC
         window.handleSignup = async () => {
             const user = document.getElementById('s-user').value.trim();
-            const email = document.getElementById('s-email').value.trim();
             const pass = document.getElementById('s-pass').value.trim();
-
-            if(!user || !pass || !email) return alert("Fill all fields, sweetie!");
+            const email = document.getElementById('s-email').value.trim();
+            if(!user || !pass) return alert("Credentials required!");
             
-            const userRef = ref(db, `users/${user}`);
-            const snap = await get(userRef);
+            const snap = await get(ref(db, `users/${user}`));
+            if(snap.exists()) return alert("Username taken!");
             
-            if(snap.exists()) {
-                alert("Username already taken!");
-            } else {
-                await set(userRef, { username: user, email: email, password: pass, balance: 0, history: [] });
-                alert("Identity Created! Please Login.");
-                switchAuth(false);
-            }
+            await set(ref(db, `users/${user}`), { username: user, email, password: pass, balance: 0 });
+            alert("Node ID Generated! Log in now.");
+            switchAuth(false);
         };
 
-        // LOGIN LOGIC
         window.handleLogin = async () => {
             const user = document.getElementById('l-user').value.trim();
             const pass = document.getElementById('l-pass').value.trim();
-
-            const userRef = ref(db, `users/${user}`);
-            const snap = await get(userRef);
-
+            const snap = await get(ref(db, `users/${user}`));
+            
             if(snap.exists() && snap.val().password === pass) {
-                localStorage.setItem('nexus_user', user);
-                loadApp(user);
+                localStorage.setItem('nexus_current_user', user);
+                renderApp(user);
             } else {
-                alert("Invalid Credentials, sweetie!");
+                alert("Security Breach: Invalid Credentials!");
             }
         };
 
-        // LOAD APP
-        function loadApp(userId) {
+        function renderApp(user) {
             document.getElementById('auth-overlay').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('nav-username').innerText = userId;
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            document.getElementById('display-name').innerText = user;
 
-            onValue(ref(db, `users/${userId}`), (snap) => {
-                const data = snap.val();
-                if(data) {
-                    document.getElementById('balance-val').innerText = '$' + (data.balance || 0).toLocaleString();
-                    // Load History
-                    const hList = document.getElementById('history-list');
-                    if(data.history) {
-                        hList.innerHTML = data.history.map(tx => `
-                            <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <div><p class="text-[8px] font-black text-slate-400 uppercase">${tx.date}</p><p class="text-[11px] font-black uppercase">${tx.type}</p></div>
-                                <div class="text-right"><p class="text-[11px] font-black">$${tx.amt}</p><p class="text-[9px] font-bold text-blue-500 uppercase">${tx.status}</p></div>
-                            </div>
-                        `).join('');
-                    }
-                }
+            onValue(ref(db, `users/${user}`), (snap) => {
+                const d = snap.val();
+                if(d) document.getElementById('balance-txt').innerText = '$' + (d.balance || 0).toLocaleString();
             });
         }
 
         window.logout = () => { localStorage.clear(); location.reload(); };
 
-        // SESSION CHECK
-        const savedUser = localStorage.getItem('nexus_user');
-        if(savedUser) loadApp(savedUser);
+        const session = localStorage.getItem('nexus_current_user');
+        if(session) renderApp(session);
     </script>
 </body>
 </html>
