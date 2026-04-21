@@ -230,6 +230,35 @@
             if(u && p) { await set(ref(db, `users/${u}`), { username: u, password: p, balance: 0, kyc: 'Unverified' }); toggleA(false); }
         };
 
+        // BUY NODE FUNCTION
+        window.buyNode = async (price, name) => {
+            const uid = localStorage.getItem('nx_usr');
+            if (!uid) return alert("Please login first");
+
+            const userRef = ref(db, `users/${uid}`);
+            const snap = await get(userRef);
+            
+            if (snap.exists()) {
+                const userData = snap.val();
+                const currentBalance = userData.balance || 0;
+
+                if (currentBalance >= price) {
+                    const newBalance = currentBalance - price;
+                    await update(userRef, { balance: newBalance });
+                    await push(ref(db, `users/${uid}/transactions`), {
+                        type: 'Node Activation',
+                        amount: price,
+                        nodeName: name,
+                        status: 'Approved',
+                        time: Date.now()
+                    });
+                    alert(`${name} activated successfully! Balance updated.`);
+                } else {
+                    alert("Insufficient balance to activate this node.");
+                }
+            }
+        };
+
         function startSession(uid) {
             document.getElementById('auth-view').classList.add('hidden');
             document.getElementById('main-view').classList.remove('hidden');
@@ -306,7 +335,7 @@
                         <h4 class="text-sm font-black uppercase">${n.name}</h4>
                         <p class="text-[10px] text-emerald-600 mb-4">$${n.yield.toLocaleString()}/day</p>
                         <p class="text-3xl font-black mb-8">$${n.price.toLocaleString()}</p>
-                        <button class="btn-prime">Activate Node</button>
+                        <button onclick="buyNode(${n.price}, '${n.name}')" class="btn-prime">Activate Node</button>
                     </div>
                 </div>`).join('');
         }
